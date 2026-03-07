@@ -1,0 +1,16 @@
+{
+  "name": "seventeen-sounds-api",
+  "version": "1.0.0",
+  "description": "十七音 API Server",
+  "main": "api/index.js",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "vercel build",
+    "start": "vercel start"
+  },
+  "dependencies": {
+    "@vercel/kv": "^1.0.0",
+    "ai": "^3.0.0",
+    "openai": "^4.28.0"
+  }
+}

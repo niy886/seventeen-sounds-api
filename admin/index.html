@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>十七音 - 管理后台</title>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; }
+    
+    .admin { max-width: 1200px; margin: 0 auto; padding: 24px; }
+    .header { background: white; padding: 20px 24px; border-radius: 12px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; }
+    .header h1 { font-size: 24px; }
+    .header .time { color: #666; font-size: 14px; }
+    
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+    .stat-card { background: white; padding: 20px; border-radius: 12px; }
+    .stat-card .label { font-size: 13px; color: #666; margin-bottom: 8px; }
+    .stat-card .value { font-size: 28px; font-weight: 600; }
+    
+    .card { background: white; border-radius: 12px; padding: 24px; margin-bottom: 24px; }
+    .card h2 { font-size: 18px; margin-bottom: 16px; }
+    
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 12px; text border-bottom: 1px solid #-align: left;eee; }
+    th { font-size: 13px; color: #666; font-weight: 500; }
+    td { font-size: 14px; }
+    
+    .badge { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 12px; }
+    .badge-success { background: #dcfce7; color: #166534; }
+    .badge-warning { background: #fef3c7; color: #92400e; }
+    
+    .loading { text-align: center; padding: 40px; color: #666; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+    
+    const API_BASE = ''; // 开发时留空
+    
+    // 模拟数据（部署后可替换为真实 API）
+    const mockData = {
+      stats: {
+        totalUsers: 1284,
+        totalHaikus: 5621,
+        todayHaikus: 89,
+        totalPoints: 128450
+      },
+      recentHaikus: [
+        { id: 1, user: '芭蕉', lines: '古池や 蛙飛び込む 水の音', season: '春', likes: 128, createdAt: '2026-03-07 10:30' },
+        { id: 2, user: '子規', lines: 'コラーと 鳴く声は ディズクも', season: '夏', likes: 256, createdAt: '2026-03-07 09:15' },
+        { id: 3, user: '蕪村', lines: '秋深しき 隣は何を する他也', season: '秋', likes: 89, createdAt: '2026-03-07 08:45' },
+        { id: 4, user: '一茶', lines: '閑さや 岩にしみ入る 蝉の声', season: '冬', likes: 312, createdAt: '2026-03-06 22:30' },
+        { id: 5, user: 'dundun', lines: '春風や 堤長うして 家遠し', season: '春', likes: 45, createdAt: '2026-03-06 18:20' },
+      ],
+      recentUsers: [
+        { id: 1, name: '芭蕉', email: 'basho@haiku.app', points: 520, haikus: 45, createdAt: '2026-01-15' },
+        { id: 2, name: '子規', email: 'kikaku@haiku.app', points: 380, haikus: 32, createdAt: '2026-02-01' },
+        { id: 3, name: '蕪村', email: 'buson@haiku.app', points: 290, haikus: 28, createdAt: '2026-02-10' },
+        { id: 4, name: 'dundun', email: 'dundun@test.com', points: 100, haikus: 5, createdAt: '2026-03-01' },
+        { id: 5, name: '新人', email: 'new@test.com', points: 100, haikus: 0, createdAt: '2026-03-07' },
+      ],
+      pointTransactions: [
+        { id: 1, user: '芭蕉', type: 'consume', amount: 10, balance: 520, createdAt: '2026-03-07 10:30' },
+        { id: 2, user: '子規', type: 'add', amount: 100, balance: 380, createdAt: '2026-03-07 09:00' },
+        { id: 3, user: '蕪村', type: 'consume', amount: 10, balance: 290, createdAt: '2026-03-06 20:15' },
+        { id: 4, user: 'dundun', type: 'add', amount: 50, balance: 100, createdAt: '2026-03-05 14:30' },
+      ]
+    };
+    
+    function App() {
+      const [data, setData] = useState(null);
+      const [loading, setLoading] = useState(true);
+      
+      useEffect(() => {
+        // 模拟 API 加载
+        setTimeout(() => {
+          setData(mockData);
+          setLoading(false);
+        }, 500);
+      }, []);
+      
+      if (loading) return <div className="loading">読み込み中...</div>;
+      
+      return (
+        <div className="admin">
+          <div className="header">
+            <h1>十七音 - 管理后台</h1>
+            <div className="time">{new Date().toLocaleString('ja-JP')}</div>
+          </div>
+          
+          <div className="stats">
+            <div className="stat-card">
+              <div className="label">総ユーザー数</div>
+              <div className="value">{data.stats.totalUsers.toLocaleString()}</div>
+            </div>
+            <div className="stat-card">
+              <div className="label">総俳句数</div>
+              <div className="value">{data.stats.totalHaikus.toLocaleString()}</div>
+            </div>
+            <div className="stat-card">
+              <div className="label">本日の俳句</div>
+              <div className="value">{data.stats.todayHaikus}</div>
+            </div>
+            <div className="stat-card">
+              <div className="label">総ポイント</div>
+              <div className="value">{data.stats.totalPoints.toLocaleString()}</div>
+            </div>
+          </div>
+          
+          <div className="card">
+            <h2>最近の俳句</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>ユーザー</th>
+                  <th>俳句</th>
+                  <th>季節</th>
+                  <th>いいね</th>
+                  <th>作成日時</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.recentHaikus.map(haiku => (
+                  <tr key={haiku.id}>
+                    <td>{haiku.id}</td>
+                    <td>{haiku.user}</td>
+                    <td>{haiku.lines}</td>
+                    <td>{haiku.season}</td>
+                    <td>{haiku.likes}</td>
+                    <td>{haiku.createdAt}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          
+          <div className="card">
+            <h2>ユーザーリスト</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>名前</th>
+                  <th>メール</th>
+                  <th>ポイント</th>
+                  <th>俳句数</th>
+                  <th>登録日</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.recentUsers.map(user => (
+                  <tr key={user.id}>
+                    <td>{user.id}</td>
+                    <td>{user.name}</td>
+                    <td>{user.email}</td>
+                    <td>{user.points}</td>
+                    <td>{user.haikus}</td>
+                    <td>{user.createdAt}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          
+          <div className="card">
+            <h2>ポイント取引</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>ユーザー</th>
+                  <th>タイプ</th>
+                  <th>金額</th>
+                  <th>残高</th>
+                  <th>日時</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.pointTransactions.map(t => (
+                  <tr key={t.id}>
+                    <td>{t.id}</td>
+                    <td>{t.user}</td>
+                    <td><span className={`badge ${t.type === 'add' ? 'badge-success' : 'badge-warning'}`}>{t.type === 'add' ? '増加' : '消費'}</span></td>
+                    <td>{t.type === 'add' ? '+' : '-'}{t.amount}</td>
+                    <td>{t.balance}</td>
+                    <td>{t.createdAt}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      );
+    }
+    
+    ReactDOM.render(<App />, document.getElementById('root'));
+  </script>
+</body>
+</html>
