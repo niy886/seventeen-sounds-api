@@ -444,20 +444,10 @@
     
     // Discover Screen
     const DiscoverScreen = ({ likes, onLike }) => {
-      const [profilePage, setProfilePage] = useState(null); // myHaiku, points, settings, about
       const [tab, setTab] = useState(localStorage.getItem("haiku_tab") || "discover");
+      const [profilePage, setProfilePage] = useState(null); // myHaiku, points, settings, about
       
-      return profilePage ? (
-        <div className="tab-content">
-          <div className="header-large" style={{marginBottom: 16}}>
-            <div onClick={() => setProfilePage(null)} style={{cursor:"pointer",fontSize:24}}>←</div>
-            <div className="header-large-title">{profilePage === "myHaiku" ? "マイ俳句" : profilePage === "points" ? "ポイント" : profilePage === "settings" ? "設定" : "このアプリについて"}</div>
-          </div>
-          {profilePage === "myHaiku" && myHaikus?.map(h => <div key={h.id} className="haiku-card" style={{padding:16}}><div className="haiku-lines">{h.lines?.[0]}<br/>{h.lines?.[1]}<br/>{h.lines?.[2]}</div></div>)}
-          {profilePage === "points" && <div style={{textAlign:"center",padding:40}}><div style={{fontSize:48,marginBottom:16}}>{points}</div><div style={{color:"#999"}}>ポイント</div><button className="action-btn" style={{marginTop:24}}>ポイントをを購入</button></div>}
-          {profilePage === "settings" && <div><div className="menu-item"><span>ダークモード</span><span className="menu-item-arrow">Soon</span></div><div className="menu-item"><span>通知設定</span><span className="menu-item-arrow">›</span></div><div className="menu-item"><span>プライバシー</span><span className="menu-item-arrow">›</span></div></div>}
-          {profilePage === "about" && <div style={{padding:20,textAlign:"center"}}><div style={{fontSize:32,marginBottom:16}}>十七音</div><div style={{color:"#999",marginBottom:8}}>Version 1.0.0</div><div style={{color:"#666",lineHeight:1.8}}>俳句を詠み、共有する美学的なアプリ</div></div>}
-        </div>) : (
+      return (
         <div className="tab-content">
           <div className="header-large">
             
@@ -486,17 +476,7 @@
         return (yB*12+mB)-(yA*12+mA);
       });
       
-      return profilePage ? (
-        <div className="tab-content">
-          <div className="header-large" style={{marginBottom: 16}}>
-            <div onClick={() => setProfilePage(null)} style={{cursor:"pointer",fontSize:24}}>←</div>
-            <div className="header-large-title">{profilePage === "myHaiku" ? "マイ俳句" : profilePage === "points" ? "ポイント" : profilePage === "settings" ? "設定" : "このアプリについて"}</div>
-          </div>
-          {profilePage === "myHaiku" && myHaikus?.map(h => <div key={h.id} className="haiku-card" style={{padding:16}}><div className="haiku-lines">{h.lines?.[0]}<br/>{h.lines?.[1]}<br/>{h.lines?.[2]}</div></div>)}
-          {profilePage === "points" && <div style={{textAlign:"center",padding:40}}><div style={{fontSize:48,marginBottom:16}}>{points}</div><div style={{color:"#999"}}>ポイント</div><button className="action-btn" style={{marginTop:24}}>ポイントをを購入</button></div>}
-          {profilePage === "settings" && <div><div className="menu-item"><span>ダークモード</span><span className="menu-item-arrow">Soon</span></div><div className="menu-item"><span>通知設定</span><span className="menu-item-arrow">›</span></div><div className="menu-item"><span>プライバシー</span><span className="menu-item-arrow">›</span></div></div>}
-          {profilePage === "about" && <div style={{padding:20,textAlign:"center"}}><div style={{fontSize:32,marginBottom:16}}>十七音</div><div style={{color:"#999",marginBottom:8}}>Version 1.0.0</div><div style={{color:"#666",lineHeight:1.8}}>俳句を詠み、共有する美学的なアプリ</div></div>}
-        </div>) : (
+      return (
         <div className="tab-content">
           <div className="header-large">
             
@@ -527,18 +507,67 @@
     };
     
     // Profile Screen
-    const ProfileScreen = ({ user, haikuCount, onLogout, likes, points, onNavigate, myHaikus }) => {
-      return profilePage ? (
-        <div className="tab-content">
-          <div className="header-large" style={{marginBottom: 16}}>
-            <div onClick={() => setProfilePage(null)} style={{cursor:"pointer",fontSize:24}}>←</div>
-            <div className="header-large-title">{profilePage === "myHaiku" ? "マイ俳句" : profilePage === "points" ? "ポイント" : profilePage === "settings" ? "設定" : "このアプリについて"}</div>
+    const ProfileScreen = ({ user, haikuCount, onLogout, likes, points, profilePage, setProfilePage, myHaikus }) => {
+      if (profilePage === "myHaiku") {
+        return (
+          <div className="tab-content">
+            <div className="header-large" style={{marginBottom: 16}}>
+              <div onClick={() => setProfilePage(null)} style={{cursor:"pointer",fontSize:24}}>←</div>
+              <div className="header-large-title">マイ俳句</div>
+            </div>
+            <div className="content">
+              {myHaikus?.length === 0 && <div className="empty-text">まだ俳句がありません</div>}
+              {myHaikus?.map(h => <div key={h.id} className="haiku-card" style={{padding:16}}><div className="haiku-lines">{h.lines?.[0]}<br/>{h.lines?.[1]}<br/>{h.lines?.[2]}</div></div>)}
+            </div>
           </div>
-          {profilePage === "myHaiku" && myHaikus?.map(h => <div key={h.id} className="haiku-card" style={{padding:16}}><div className="haiku-lines">{h.lines?.[0]}<br/>{h.lines?.[1]}<br/>{h.lines?.[2]}</div></div>)}
-          {profilePage === "points" && <div style={{textAlign:"center",padding:40}}><div style={{fontSize:48,marginBottom:16}}>{points}</div><div style={{color:"#999"}}>ポイント</div><button className="action-btn" style={{marginTop:24}}>ポイントをを購入</button></div>}
-          {profilePage === "settings" && <div><div className="menu-item"><span>ダークモード</span><span className="menu-item-arrow">Soon</span></div><div className="menu-item"><span>通知設定</span><span className="menu-item-arrow">›</span></div><div className="menu-item"><span>プライバシー</span><span className="menu-item-arrow">›</span></div></div>}
-          {profilePage === "about" && <div style={{padding:20,textAlign:"center"}}><div style={{fontSize:32,marginBottom:16}}>十七音</div><div style={{color:"#999",marginBottom:8}}>Version 1.0.0</div><div style={{color:"#666",lineHeight:1.8}}>俳句を詠み、共有する美学的なアプリ</div></div>}
-        </div>) : (
+        );
+      }
+      if (profilePage === "points") {
+        return (
+          <div className="tab-content">
+            <div className="header-large" style={{marginBottom: 16}}>
+              <div onClick={() => setProfilePage(null)} style={{cursor:"pointer",fontSize:24}}>←</div>
+              <div className="header-large-title">ポイント</div>
+            </div>
+            <div className="content" style={{textAlign:"center",padding:40}}>
+              <div style={{fontSize:48,marginBottom:16}}>{points}</div>
+              <div style={{color:"#999",marginBottom:24}}>ポイント</div>
+              <button className="login-btn">ポイントをを購入</button>
+            </div>
+          </div>
+        );
+      }
+      if (profilePage === "settings") {
+        return (
+          <div className="tab-content">
+            <div className="header-large" style={{marginBottom: 16}}>
+              <div onClick={() => setProfilePage(null)} style={{cursor:"pointer",fontSize:24}}>←</div>
+              <div className="header-large-title">設定</div>
+            </div>
+            <div className="content">
+              <div className="menu-item"><span>ダークモード</span><span className="menu-item-arrow">Soon</span></div>
+              <div className="menu-item"><span>通知設定</span><span className="menu-item-arrow">›</span></div>
+              <div className="menu-item"><span>プライバシー</span><span className="menu-item-arrow">›</span></div>
+            </div>
+          </div>
+        );
+      }
+      if (profilePage === "about") {
+        return (
+          <div className="tab-content">
+            <div className="header-large" style={{marginBottom: 16}}>
+              <div onClick={() => setProfilePage(null)} style={{cursor:"pointer",fontSize:24}}>←</div>
+              <div className="header-large-title">このアプリについて</div>
+            </div>
+            <div className="content" style={{padding:20,textAlign:"center"}}>
+              <div style={{fontSize:32,marginBottom:16}}>十七音</div>
+              <div style={{color:"#999",marginBottom:8}}>Version 1.0.0</div>
+              <div style={{color:"#666",lineHeight:1.8}}>俳句を詠み、共有する美学的なアプリ</div>
+            </div>
+          </div>
+        );
+      }
+      return (
         <div className="tab-content">
           <div className="header-large">
             
@@ -554,14 +583,14 @@
                 <div className="profile-stat"><div className="profile-stat-num">{Object.keys(likes).length}</div><div className="profile-stat-label">いいね</div></div>
               </div>
             </div>
-            <div className="menu-item" onClick={() => onNavigate("myHaiku")}><span>マイ俳句</span><span className="menu-item-arrow">›</span></div>
-            <div className="menu-item" onClick={() => onNavigate("points")}><span>ポイント購入</span><span className="menu-item-arrow">›</span></div>
-            <div className="menu-item" onClick={() => onNavigate("settings")}><span>設定</span><span className="menu-item-arrow">›</span></div>
-            <div className="menu-item" onClick={() => onNavigate("about")}><span>このアプリについて</span><span className="menu-item-arrow">›</span></div>
+            <div className="menu-item" onClick={() => setProfilePage("myHaiku")}><span>マイ俳句</span><span className="menu-item-arrow">›</span></div>
+            <div className="menu-item" onClick={() => setProfilePage("points")}><span>ポイント購入</span><span className="menu-item-arrow">›</span></div>
+            <div className="menu-item" onClick={() => setProfilePage("settings")}><span>設定</span><span className="menu-item-arrow">›</span></div>
+            <div className="menu-item" onClick={() => setProfilePage("about")}><span>このアプリについて</span><span className="menu-item-arrow">›</span></div>
             <div className="menu-item menu-item-danger" onClick={onLogout}>ログアウト</div>
           </div>
         </div>
-      )}
+      );
     };
     
     // Main App
@@ -621,7 +650,7 @@
           {activeTab === 'create' && <CreateScreen user={user} points={points} onHaikuCreated={handleHaikuCreated} />}
           {activeTab === 'discover' && <DiscoverScreen likes={likes} onLike={handleLike} />}
           {activeTab === 'timeline' && <TimelineScreen haikus={haikus} likes={likes} onLike={handleLike} />}
-          {activeTab === 'profile' && <ProfileScreen user={user} haikuCount={haikus.length} onLogout={handleLogout} likes={likes} points={points} onNavigate={setProfilePage} myHaikus={haikus} profilePage={profilePage} setProfilePage={setProfilePage} />}
+          {activeTab === 'profile' && <ProfileScreen user={user} haikuCount={haikus.length} onLogout={handleLogout} likes={likes} points={points} profilePage={profilePage} setProfilePage={setProfilePage} myHaikus={haikus} />}
           
           <div className="tab-bar">
             {[{key:'create',label:'創作'},{key:'discover',label:'発見'},{key:'timeline',label:'吟行'},{key:'profile',label:'自分'}].map(item => (
