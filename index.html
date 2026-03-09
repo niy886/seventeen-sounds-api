@@ -63,9 +63,9 @@
     /* Tab */
     .tab-bar { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 420px; background: var(--bg); border-top: 1px solid var(--border); display: flex; justify-content: space-around; padding: 16px 0; z-index: 9999; }
     .tab-item { display: flex; flex-direction: column; align-items: center; flex: 1; }
-    .tab-icon { font-size: 28px; margin-bottom: 2px; opacity: 0.5; }
+    .tab-icon { font-size: 24px; margin-bottom: 4px; }
     .tab-item.active .tab-icon { opacity: 1; }
-    .tab-label { font-size: 12px; color: var(--secondary); letter-spacing: 0.1em; }
+    .tab-label { font-size: 10px; color: var(--secondary); }
     .tab-item.active .tab-label { color: var(--primary); font-weight: 600; }
     
     /* Input */
@@ -293,7 +293,7 @@
       return { lines: random.lines, season: seasonNames[season], author: random.author };
     };
     
-    const Icons = { create: '✎', discover: '◎', timeline: '◷', profile: '◯' };
+    const Icons = { create: '写', discover: '発見', timeline: '旅', profile: '自分' };
     
     // Login Screen
     const LoginScreen = ({ onLogin }) => {
