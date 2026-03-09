@@ -443,7 +443,7 @@
     
     // Discover Screen
     const DiscoverScreen = ({ likes, onLike }) => {
-      const [tab, setTab] = useState('trending');
+      const [tab, setTab] = useState(localStorage.getItem("haiku_tab") || "discover");
       
       return (
         <div className="tab-content">
