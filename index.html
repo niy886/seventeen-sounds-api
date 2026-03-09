@@ -1281,7 +1281,7 @@
     };
     
     // Discover Screen
-    const DiscoverScreen = ({ likes, onLike, comments, onComment, user, follows, onFollow, onViewProfile }) => {
+    const DiscoverScreen = ({ likes = {}, onLike, comments = {}, onComment, user, follows = {}, onFollow, onViewProfile }) => {
       const [tab, setTab] = useState('trending');
       const [loading, setLoading] = useState(false);
       const [displayHaikus, setDisplayHaikus] = useState([]);
@@ -1307,7 +1307,7 @@
             // 新品：按时间排序
             return [...sampleHaikus].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
           case 'classic':
-            // 名作：经典俳句
+            // フォロー中：经典俳句
             return sampleHaikus.filter(h => ['芭蕉', '子規', '蕪村', '一茶'].includes(h.author));
           default:
             return sampleHaikus;
@@ -1380,9 +1380,9 @@
               </div>
             )}
             <div className="discover-tabs" style={{marginTop:'20px',marginBottom:'100px'}}>
-              <button className={`discover-tab ${tab === 'trending' ? 'active' : ''}`} onClick={() => setTab('trending')}>トレンド</button>
-              <button className={`discover-tab ${tab === 'new' ? 'active' : ''}`} onClick={() => setTab('new')}>新着</button>
-              <button className={`discover-tab ${tab === 'classic' ? 'active' : ''}`} onClick={() => setTab('classic')}>名作</button>
+              <button className={`discover-tab ${tab === 'trending' ? 'active' : ''}`} onClick={() => setTab('trending')}>人気順</button>
+              <button className={`discover-tab ${tab === 'new' ? 'active' : ''}`} onClick={() => setTab('new')}>最新</button>
+              <button className={`discover-tab ${tab === 'classic' ? 'active' : ''}`} onClick={() => setTab('classic')}>フォロー中</button>
             </div>
           </div>
         </PullToRefresh>
@@ -1390,7 +1390,7 @@
     };
     
     // Timeline Screen
-    const TimelineScreen = ({ haikus, likes, onLike, comments, onComment, follows, onFollow, currentUser, onViewProfile }) => {
+    const TimelineScreen = ({ haikus = [], likes = {}, onLike, comments = {}, onComment, follows = {}, onFollow, currentUser, onViewProfile }) => {
       const [refreshing, setRefreshing] = useState(false);
       const grouped = haikus.reduce((acc, h) => {
         const d = new Date(h.createdAt);
@@ -1443,7 +1443,7 @@
     };
     
     // Profile Screen
-    const ProfileScreen = ({ user, haikuCount, onLogout, likes, points, allHaikus, onMenuClick, follows }) => {
+    const ProfileScreen = ({ user, haikuCount = 0, onLogout, likes = {}, points = 0, allHaikus = [], onMenuClick, follows = {} }) => {
       const followingCount = (follows?.following || []).length;
       const followersCount = (follows?.followers || []).length;
       
@@ -1479,7 +1479,7 @@
     };
     
     // Profile Sub Screens
-    const MyHaikuScreen = ({ user, haikus, likes, onBack, comments, onComment, follows, onFollow }) => (
+    const MyHaikuScreen = ({ user, haikus = [], likes = {}, onBack, comments = {}, onComment, follows = {}, onFollow }) => (
       <div className="tab-content">
         
           <div className="header-title" style={{cursor:'pointer'}} onClick={onBack}>← 戻る</div>
@@ -1495,7 +1495,7 @@
       </div>
     );
     
-    const LikedHaikuScreen = ({ sampleHaikus, likes, onBack, comments, onComment, follows, onFollow }) => {
+    const LikedHaikuScreen = ({ sampleHaikus = [], likes = {}, onBack, comments = {}, onComment, follows = {}, onFollow }) => {
       const likedHaikus = sampleHaikus.filter(h => likes[h.id]);
       return (
         <div className="tab-content">
