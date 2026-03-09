@@ -535,9 +535,6 @@
     
     // Main App
     const App = () => {
-  const [showSplash, setShowSplash] = useState(true);
-  useEffect(() => { setTimeout(() => setShowSplash(false), 2000); }, []);
-  if (showSplash) return <div style={{display:"flex",justifyContent:"center",alignItems:"center",height:"100vh",background:"#F9F7F2"}}><h1 style={{fontFamily:"Noto Serif JP",fontSize:36,color:"#1A1A1A"}}>十七音</h1></div>;
       const [showSplash, setShowSplash] = useState(true);
       const [isLoggedIn, setIsLoggedIn] = useState(!!loadUser());
       const [user, setUser] = useState(loadUser());
