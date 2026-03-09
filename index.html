@@ -215,8 +215,8 @@
     .haiku-user-follow.following { background: var(--primary); color: white; border-color: var(--primary); }
     
     /* Discover */
-    .discover-tabs { display: flex; gap: 8px; justify-content: center; padding: 12px 16px; background: var(--card); border-top: 1px solid var(--border); position: fixed; bottom: 70px; left: 0; right: 0; max-width: 420px; margin: 0 auto; }
-    .discover-tab { padding: 8px 20px; background: transparent; border: 1px solid var(--border); font-size: 12px; color: var(--secondary); border-radius: 20px; }
+    .discover-tabs { display: flex; gap: 8px; margin-bottom: 20px; }
+    .discover-tab { padding: 8px 16px; background: transparent; border: 1px solid var(--border); font-size: 12px; color: var(--secondary); }
     .discover-tab.active { background: var(--primary); color: white; border-color: var(--primary); }
     
     /* Profile */
@@ -1352,6 +1352,11 @@
                 style={{marginBottom:0,fontSize:'14px'}}
               />
             </div>
+            <div className="discover-tabs">
+              <button className={`discover-tab ${tab === 'trending' ? 'active' : ''}`} onClick={() => setTab('trending')}>トレンド</button>
+              <button className={`discover-tab ${tab === 'new' ? 'active' : ''}`} onClick={() => setTab('new')}>新着</button>
+              <button className={`discover-tab ${tab === 'classic' ? 'active' : ''}`} onClick={() => setTab('classic')}>名作</button>
+            </div>
             {loading ? (
               <div className="loading">
                 <span className="loading-dot"></span>
@@ -1379,18 +1384,13 @@
                 <div className="empty-text">まだ作品がありません</div>
               </div>
             )}
-            <div className="discover-tabs" style={{marginTop:'20px',marginBottom:'100px'}}>
-              <button className={`discover-tab ${tab === 'trending' ? 'active' : ''}`} onClick={() => setTab('trending')}>トレンド</button>
-              <button className={`discover-tab ${tab === 'new' ? 'active' : ''}`} onClick={() => setTab('new')}>新着</button>
-              <button className={`discover-tab ${tab === 'classic' ? 'active' : ''}`} onClick={() => setTab('classic')}>名作</button>
-            </div>
           </div>
         </PullToRefresh>
       );
     };
     
     // Timeline Screen
-    const TimelineScreen = ({ haikus, likes, onLike, comments, onComment, follows, onFollow, currentUser, onViewProfile }) => {
+    const TimelineScreen = ({ haikus = [], likes, onLike, comments, onComment, follows, onFollow, currentUser, onViewProfile }) => {
       const [refreshing, setRefreshing] = useState(false);
       const grouped = haikus.reduce((acc, h) => {
         const d = new Date(h.createdAt);
@@ -1443,7 +1443,7 @@
     };
     
     // Profile Screen
-    const ProfileScreen = ({ user, haikuCount, onLogout, likes, points, allHaikus, onMenuClick, follows }) => {
+    const ProfileScreen = ({ user, haikuCount, onLogout, likes, points, allHaikus = [], onMenuClick, follows }) => {
       const followingCount = (follows?.following || []).length;
       const followersCount = (follows?.followers || []).length;
       
@@ -1479,7 +1479,7 @@
     };
     
     // Profile Sub Screens
-    const MyHaikuScreen = ({ user, haikus, likes, onBack, comments, onComment, follows, onFollow }) => (
+    const MyHaikuScreen = ({ user, haikus = [], likes, onBack, comments, onComment, follows, onFollow }) => (
       <div className="tab-content">
         
           <div className="header-title" style={{cursor:'pointer'}} onClick={onBack}>← 戻る</div>
@@ -1495,7 +1495,7 @@
       </div>
     );
     
-    const LikedHaikuScreen = ({ sampleHaikus, likes, onBack, comments, onComment, follows, onFollow }) => {
+    const LikedHaikuScreen = ({ sampleHaikus = [], likes, onBack, comments, onComment, follows, onFollow }) => {
       const likedHaikus = sampleHaikus.filter(h => likes[h.id]);
       return (
         <div className="tab-content">
