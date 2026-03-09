@@ -17,7 +17,7 @@
     html, body, #root {
       height: 100%;
       background: #F9F7F2;
-      font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: "Noto Serif JP", "Hiragino Mincho ProN", serif;
       -webkit-font-smoothing: antialiased;
       --primary: #1A1A1A;
       --secondary: #6B6B6B;
@@ -75,7 +75,7 @@
     .kigo-section { margin-bottom: 24px; }
     .kigo-label { font-size: 11px; color: var(--secondary); margin-bottom: 12px; letter-spacing: 0.1em; text-transform: uppercase; }
     .kigo-pills { display: flex; flex-wrap: wrap; gap: 8px; }
-    .kigo-pill { padding: 10px 18px; background: var(--card); border: 1px solid var(--border); font-size: 14px; border-radius: 20px; }
+    .kigo-pill { color: #8B7355;  padding: 10px 18px; background: var(--card); border: 1px solid var(--border); font-size: 14px; border-radius: 20px; }
     .kigo-pill:active { background: var(--primary); color: white; }
     
     /* Button */
@@ -87,7 +87,7 @@
     .haiku-card { border-radius: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); background: var(--card); padding: 32px 24px; text-align: center; margin-bottom: 16px; border: 1px solid var(--border); }
     .haiku-season { font-size: 11px; color: var(--secondary); letter-spacing: 0.15em; margin-bottom: 16px; text-transform: uppercase; }
     .haiku-lines { font-family: "Noto Serif JP", serif; font-size: 22px; line-height: 2.2; color: var(--primary); letter-spacing: 0.1em; }
-    .haiku-author { font-size: 12px; color: var(--secondary); margin-top: 20px; }
+    .haiku-author { font-size: 14px; color: var(--secondary); margin-top: 20px; font-weight: 500; }
     .haiku-actions { display: flex; justify-content: center; gap: 32px; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border); }
     .haiku-action { font-size: 13px; color: var(--secondary); transition: transform 0.2s; }
     .haiku-action.liked { color: var(--accent); }
@@ -135,6 +135,8 @@
     .empty-state { text-align: center; padding: 60px 20px; }
     .empty-icon { font-size: 48px; margin-bottom: 16px; opacity: 0.5; }
     .empty-text { font-size: 14px; color: var(--secondary); }
+  
+    ::-webkit-scrollbar { display: none; }
   </style>
 </head>
 <body>
