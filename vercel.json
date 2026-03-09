@@ -1,32 +1,8 @@
 {
   "builds": [
     {
-      "src": "index.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "bundle.js",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "manifest.json",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "icon-*.png",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "favicon.ico",
+      "src": "**/*",
       "use": "@vercel/static"
     }
-  ],
-  "routes": [
-    { "src": "/bundle.js", "dest": "/bundle.js" },
-    { "src": "/manifest.json", "dest": "/manifest.json" },
-    { "src": "/icon-192.png", "dest": "/icon-192.png" },
-    { "src": "/icon-512.png", "dest": "/icon-512.png" },
-    { "src": "/favicon.ico", "dest": "/favicon.ico" },
-    { "src": "/(.*)", "dest": "/index.html" }
   ]
 }

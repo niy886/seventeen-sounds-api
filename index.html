@@ -1,1 +1,611 @@
-404: Not Found
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#F9F7F2">
+  <title>十七音 - Haiku</title>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body, #root {
+      height: 100%;
+      background: #F9F7F2;
+      font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      --primary: #1A1A1A;
+      --secondary: #6B6B6B;
+      --accent: #C41E3A;
+      --bg: #F9F7F2;
+      --card: #FFFFFF;
+      --border: #E8E5E0;
+    }
+    
+    .app { max-width: 420px; margin: 0 auto; min-height: 100vh; background: var(--bg); position: relative; }
+    
+    /* Login */
+    .login-screen { display: flex; flex-direction: column; min-height: 100vh; padding: 80px 32px 40px; justify-content: center; }
+    .login-logo { font-family: 'Noto Serif JP', serif; font-size: 36px; color: var(--primary); text-align: center; letter-spacing: 0.3em; margin-bottom: 8px; }
+    .login-subtitle { font-size: 13px; color: var(--secondary); text-align: center; margin-bottom: 48px; letter-spacing: 0.1em; }
+    .login-input { width: 100%; padding: 16px; background: transparent; border: none; border-bottom: 1px solid var(--border); font-size: 16px; margin-bottom: 24px; text-align: center; font-family: 'Noto Serif JP', serif; }
+    .login-input:focus { outline: none; border-color: var(--primary); }
+    .login-btn { width: 100%; padding: 16px; background: var(--primary); color: white; border: none; font-size: 14px; letter-spacing: 0.2em; cursor: pointer; }
+    .login-divider { display: flex; align-items: center; margin: 32px 0; }
+    .login-divider::before, .login-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .login-divider span { padding: 0 16px; font-size: 12px; color: var(--secondary); }
+    .login-social { display: flex; justify-content: center; gap: 24px; }
+    .login-social-btn { width: 48px; height: 48px; border-radius: 50%; background: var(--card); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; }
+    
+    /* Splash */
+    .splash { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--bg); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 9999; }
+    .splash-title { font-family: 'Noto Serif JP', serif; font-size: 42px; color: var(--primary); letter-spacing: 0.4em; }
+    .splash-haiku { font-family: 'Noto Serif JP', serif; font-size: 15px; color: var(--secondary); text-align: center; line-height: 2.4; margin-top: 24px; }
+    
+    /* Header */
+    .header { padding: 24px 24px 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+    .header-title { font-family: 'Noto Serif JP', serif; font-size: 20px; color: var(--primary); letter-spacing: 0.15em; }
+    .header-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #2D2D2D, #5A5A5A); display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; }
+    .header-large { padding: 24px; background: var(--bg); }
+    .header-large-title { font-family: 'Noto Serif JP', serif; font-size: 28px; color: var(--primary); letter-spacing: 0.1em; }
+    
+    .header-points { font-size: 13px; color: var(--secondary); display: flex; align-items: center; gap: 4px; }
+    .points-badge { background: var(--primary); color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px; }
+    
+    /* Content */
+    .content { padding: 20px 24px; padding-bottom: 100px; }
+    
+    /* Tab */
+    .tab-bar { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 420px; background: var(--bg); border-top: 1px solid var(--border); display: flex; justify-content: space-around; padding: 16px 0; z-index: 9999; }
+    .tab-item { display: flex; flex-direction: column; align-items: center; flex: 1; }
+    .tab-icon { font-size: 20px; margin-bottom: 4px; opacity: 0.4; }
+    .tab-item.active .tab-icon { opacity: 1; }
+    .tab-label { font-size: 10px; color: var(--secondary); letter-spacing: 0.1em; }
+    .tab-item.active .tab-label { color: var(--primary); }
+    
+    /* Input */
+    .create-input { width: 100%; min-height: 80px; padding: 16px; background: var(--card); border: 1px solid var(--border); font-size: 16px; font-family: 'Noto Serif JP', serif; resize: none; margin-bottom: 20px; }
+    
+    /* Kigo */
+    .kigo-section { margin-bottom: 24px; }
+    .kigo-label { font-size: 11px; color: var(--secondary); margin-bottom: 12px; letter-spacing: 0.1em; text-transform: uppercase; }
+    .kigo-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+    .kigo-pill { padding: 8px 16px; background: var(--card); border: 1px solid var(--border); font-size: 14px; }
+    .kigo-pill:active { background: var(--primary); color: white; }
+    
+    /* Button */
+    .action-btn { width: 100%; padding: 16px; background: var(--primary); color: white; border: none; font-size: 13px; letter-spacing: 0.15em; }
+    .action-btn:disabled { opacity: 0.5; }
+    .action-btn-secondary { background: transparent; color: var(--primary); border: 1px solid var(--border); }
+    
+    /* Haiku Card */
+    .haiku-card { background: var(--card); padding: 32px 24px; text-align: center; margin-bottom: 16px; border: 1px solid var(--border); }
+    .haiku-season { font-size: 11px; color: var(--secondary); letter-spacing: 0.15em; margin-bottom: 16px; text-transform: uppercase; }
+    .haiku-lines { font-family: 'Noto Serif JP', serif; font-size: 20px; line-height: 2.2; color: var(--primary); letter-spacing: 0.1em; }
+    .haiku-author { font-size: 12px; color: var(--secondary); margin-top: 20px; }
+    .haiku-actions { display: flex; justify-content: center; gap: 32px; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border); }
+    .haiku-action { font-size: 13px; color: var(--secondary); }
+    .haiku-action.liked { color: var(--accent); }
+    
+    .haiku-user { display: flex; align-items: center; margin-bottom: 16px; }
+    .haiku-user-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #2D2D2D, #5A5A5A); display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; margin-right: 12px; }
+    .haiku-user-info { flex: 1; }
+    .haiku-user-name { font-size: 14px; font-weight: 500; }
+    .haiku-user-time { font-size: 12px; color: var(--secondary); }
+    
+    /* Discover */
+    .discover-tabs { display: flex; gap: 8px; margin-bottom: 20px; }
+    .discover-tab { padding: 8px 16px; background: transparent; border: 1px solid var(--border); font-size: 12px; color: var(--secondary); }
+    .discover-tab.active { background: var(--primary); color: white; border-color: var(--primary); }
+    
+    /* Profile */
+    .profile-header { text-align: center; padding: 32px 0; }
+    .profile-avatar { width: 72px; height: 72px; border-radius: 50%; background: linear-gradient(135deg, #2D2D2D, #5A5A5A); margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; }
+    .profile-name { font-size: 18px; font-weight: 500; margin-bottom: 4px; }
+    .profile-email { font-size: 13px; color: var(--secondary); margin-bottom: 20px; }
+    .profile-stats { display: flex; justify-content: center; gap: 32px; }
+    .profile-stat-num { font-size: 18px; font-weight: 500; }
+    .profile-stat-label { font-size: 11px; color: var(--secondary); margin-top: 4px; }
+    
+    .menu-item { padding: 16px 0; border-bottom: 1px solid var(--border); font-size: 14px; display: flex; justify-content: space-between; }
+    .menu-item:last-child { border-bottom: none; }
+    .menu-item-arrow { color: var(--secondary); }
+    .menu-item-danger { color: var(--accent); }
+    
+    /* Timeline */
+    .timeline-month { margin-bottom: 32px; }
+    .timeline-month-title { font-size: 12px; color: var(--secondary); margin-bottom: 16px; letter-spacing: 0.1em; }
+    .timeline-item { display: flex; margin-bottom: 20px; }
+    .timeline-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--primary); margin-top: 6px; margin-right: 16px; flex-shrink: 0; }
+    .timeline-content { flex: 1; }
+    .timeline-date { font-size: 11px; color: var(--secondary); margin-top: 8px; }
+    
+    /* Loading */
+    .loading { display: flex; justify-content: center; padding: 20px; }
+    .loading-dot { width: 6px; height: 6px; background: var(--primary); border-radius: 50%; margin: 0 4px; animation: bounce 1.4s infinite ease-in-out both; }
+    .loading-dot:nth-child(1) { animation-delay: -0.32s; }
+    .loading-dot:nth-child(2) { animation-delay: -0.16s; }
+    @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
+    
+    .empty-state { text-align: center; padding: 60px 20px; }
+    .empty-icon { font-size: 32px; margin-bottom: 16px; opacity: 0.3; }
+    .empty-text { font-size: 14px; color: var(--secondary); }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+    
+    // 配置 - 部署后修改这里
+    const API_BASE = 'http://localhost:3000/api'; // 开发环境
+    // const API_BASE = 'https://your-project.vercel.app/api'; // 生产环境
+    
+    const USER_KEY = '@seventeen_user';
+    const HAIKU_STORAGE_KEY = '@seventeen_haikus';
+    const LIKES_KEY = '@seventeen_likes';
+    
+    const loadUser = () => { try { return JSON.parse(localStorage.getItem(USER_KEY)); } catch (e) { return null; } };
+    const saveUser = (user) => localStorage.setItem(USER_KEY, JSON.stringify(user));
+    const clearUser = () => localStorage.removeItem(USER_KEY);
+    
+    const loadHaikus = () => { try { return JSON.parse(localStorage.getItem(HAIKU_STORAGE_KEY)) || []; } catch (e) { return []; } };
+    const saveHaikus = (haikus) => localStorage.setItem(HAIKU_STORAGE_KEY, JSON.stringify(haikus));
+    
+    const loadLikes = () => { try { return JSON.parse(localStorage.getItem(LIKES_KEY)) || {}; } catch (e) { return {}; } };
+    const saveLikes = (likes) => localStorage.setItem(LIKES_KEY, JSON.stringify(likes));
+    
+    // API 调用
+    const api = {
+      async createUser(name, email) {
+        try {
+          const res = await fetch(`${API_BASE}/user`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email })
+          });
+          return await res.json();
+        } catch (e) {
+          // 降级到本地存储
+          const user = { id: `local_${Date.now()}`, name, email, points: 100, createdAt: new Date().toISOString() };
+          saveUser(user);
+          return { user };
+        }
+      },
+      async getUser(userId) {
+        try {
+          const res = await fetch(`${API_BASE}/user?userId=${userId}`);
+          return await res.json();
+        } catch (e) {
+          return { user: loadUser() };
+        }
+      },
+      async createHaiku(userId, lines, season, author) {
+        try {
+          const res = await fetch(`${API_BASE}/haiku`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userId, lines, season, author })
+          });
+          return await res.json();
+        } catch (e) {
+          // 降级到本地存储
+          const haiku = { id: `local_${Date.now()}`, userId, lines, season, author, likes: 0, createdAt: new Date().toISOString() };
+          const haikus = [haiku, ...loadHaikus()];
+          saveHaikus(haikus);
+          return { haiku };
+        }
+      },
+      async getPoints(userId) {
+        try {
+          const res = await fetch(`${API_BASE}/points?userId=${userId}`);
+          const data = await res.json();
+          return data.points || 0;
+        } catch (e) {
+          const user = loadUser();
+          return user?.points || 0;
+        }
+      },
+      async consumePoints(userId, amount) {
+        try {
+          const res = await fetch(`${API_BASE}/points`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userId, amount, type: 'consume' })
+          });
+          return await res.json();
+        } catch (e) {
+          const user = loadUser();
+          if (user && user.points >= amount) {
+            user.points -= amount;
+            saveUser(user);
+            return { points: user.points };
+          }
+          return { error: 'Insufficient points' };
+        }
+      }
+    };
+    
+    // Data
+    const kigoData = {
+      spring: ['春', '桜', '菜の花', '牡丹', '燕'],
+      summer: ['夏', '蝉', '海', '風鈴', '向日葵'],
+      autumn: ['秋', '紅葉', '月', '虫', '彼岸'],
+      winter: ['冬', '雪', '初雪', '寒さ', '腊梅'],
+    };
+    
+    const getCurrentSeason = () => {
+      const month = new Date().getMonth();
+      if (month >= 2 && month <= 4) return 'spring';
+      if (month >= 5 && month <= 7) return 'summer';
+      if (month >= 8 && month <= 10) return 'autumn';
+      return 'winter';
+    };
+    
+    const seasonNames = { spring: '春', summer: '夏', autumn: '秋', winter: '冬' };
+    
+    const haikuDatabase = {
+      spring: [
+        { lines: ['古池や', '蛙飛び込む', '水の音'], author: '芭蕉' },
+        { lines: ['春風や', '堤長うして', '家遠し'], author: '芭蕉' },
+        { lines: ['菜の花や', '月は東に', '日は西に'], author: '蕪村' },
+      ],
+      summer: [
+        { lines: ['<minimax:tool_call>', '鳴く声は', 'ディズクも'], author: '子規' },
+        { lines: ['夏草や', '兵どもが', '夢の跡'], author: '芭蕉' },
+        { lines: ['海の', '遠きことを', '思ふ日よ'], author: '子規' },
+      ],
+      autumn: [
+        { lines: ['秋深しき', '隣は何を', 'する他也'], author: '芭蕉' },
+        { lines: ['紅葉や', 'iggins戸を', '押しかな'], author: '蕪村' },
+        { lines: ['虫の声', '人間の', '旅の音'], author: '子規' },
+      ],
+      winter: [
+        { lines: ['閑さや', '岩にしみ入る', '蝉の声'], author: '芭蕉' },
+        { lines: ['雪の間', '春草描く', '山戴く'], author: '芭蕉' },
+        { lines: ['初雪や', '香蕉の', '枝垂る'], author: '子規' },
+      ],
+    };
+    
+    const sampleUsers = [
+      { id: 1, name: '芭蕉', avatar: '芭' },
+      { id: 2, name: '子規', avatar: '子' },
+      { id: 3, name: '蕪村', avatar: '蕪' },
+      { id: 4, name: '一茶', avatar: '一' },
+    ];
+    
+    const sampleHaikus = [
+      { id: 1, user: sampleUsers[0], lines: ['古池や', '蛙飛び込む', '水の音'], season: '春', likes: 128, comments: 12, createdAt: '2026-03-07T10:00:00' },
+      { id: 2, user: sampleUsers[1], lines: ['<minimax:tool_call>', '鳴く声は', 'ディズクも'], season: '夏', likes: 256, comments: 34, createdAt: '2026-03-06T15:30:00' },
+      { id: 3, user: sampleUsers[2], lines: ['秋深しき', '隣は何を', 'する他也'], season: '秋', likes: 89, comments: 5, createdAt: '2026-03-05T09:00:00' },
+      { id: 4, user: sampleUsers[3], lines: ['閑さや', '岩にしみ入る', '蝉の声'], season: '冬', likes: 312, comments: 28, createdAt: '2026-03-04T20:00:00' },
+    ];
+    
+    const generateHaiku = (season) => {
+      const list = haikuDatabase[season] || haikuDatabase.spring;
+      const random = list[Math.floor(Math.random() * list.length)];
+      return { lines: random.lines, season: seasonNames[season], author: random.author };
+    };
+    
+    const Icons = { create: '✎', discover: '◎', timeline: '◷', profile: '◯' };
+    
+    // Login Screen
+    const LoginScreen = ({ onLogin }) => {
+      const [name, setName] = useState('');
+      const [loading, setLoading] = useState(false);
+      
+      const handleLogin = async () => {
+        if (!name.trim()) return;
+        setLoading(true);
+        try {
+          const { user } = await api.createUser(name.trim(), '');
+          onLogin(user);
+        } catch (e) {
+          onLogin({ id: `local_${Date.now()}`, name: name.trim(), points: 100 });
+        }
+        setLoading(false);
+      };
+      
+      return (
+        <div className="login-screen">
+          <div className="login-logo">十七音</div>
+          <div className="login-subtitle">Haiku for your journey</div>
+          <div>
+            <input className="login-input" placeholder="お名前" value={name} onChange={(e) => setName(e.target.value)} />
+            <button className="login-btn" onClick={handleLogin} disabled={loading}>
+              {loading ? '...' : '始める'}
+            </button>
+          </div>
+          <div className="login-divider"><span>または</span></div>
+          <div className="login-social">
+            <div className="login-social-btn"></div>
+            <div className="login-social-btn"></div>
+            <div className="login-social-btn"></div>
+          </div>
+        </div>
+      );
+    };
+    
+    // Splash
+    const Splash = ({ onFinish }) => {
+      useEffect(() => {
+        const timer = setTimeout(() => onFinish(), 2500);
+        return () => clearTimeout(timer);
+      }, []);
+      
+      const haikus = [['古池や', '蛙飛び込む', '水の音'], ['柿くへば', '鐘が鳴るなり', '法隆寺'], ['夏草や', '兵どもが', '夢の跡']];
+      const random = haikus[Math.floor(Math.random() * haikus.length)];
+      
+      return (
+        <div className="splash">
+          <div className="splash-title">十七音</div>
+          <div className="splash-haiku">{random[0]}<br/>{random[1]}<br/>{random[2]}</div>
+        </div>
+      );
+    };
+    
+    // Haiku Card
+    const HaikuCard = ({ item, likes, onLike, showUser = true }) => {
+      const isLiked = likes[item.id];
+      
+      return (
+        <div className="haiku-card">
+          {showUser && item.user && (
+            <div className="haiku-user">
+              <div className="haiku-user-avatar">{item.user.avatar || item.user.name?.[0]}</div>
+              <div className="haiku-user-info">
+                <div className="haiku-user-name">{item.user.name}</div>
+                <div className="haiku-user-time">{new Date(item.createdAt).toLocaleDateString('ja-JP')}</div>
+              </div>
+            </div>
+          )}
+          <div className="haiku-season">{item.season}</div>
+          <div className="haiku-lines">{item.lines[0]}<br/>{item.lines[1]}<br/>{item.lines[2]}</div>
+          <div className="haiku-author">— {item.author}</div>
+          <div className="haiku-actions">
+            <div className={`haiku-action ${isLiked ? 'liked' : ''}`} onClick={() => onLike(item.id)}>
+              {isLiked ? '♥' : '♡'} {item.likes + (isLiked ? 1 : 0)}
+            </div>
+            <div className="haiku-action">💬 {item.comments || 0}</div>
+          </div>
+        </div>
+      );
+    };
+    
+    // Create Screen
+    const CreateScreen = ({ user, points, onHaikuCreated }) => {
+      const [input, setInput] = useState('');
+      const [haiku, setHaiku] = useState(null);
+      const [loading, setLoading] = useState(false);
+      const season = getCurrentSeason();
+      
+      const handleGenerate = async () => {
+        // 检查点数
+        if (points < 10) {
+          alert('ポイントが不足しています');
+          return;
+        }
+        
+        setLoading(true);
+        
+        // 消耗点数
+        await api.consumePoints(user.id, 10);
+        
+        setTimeout(() => {
+          const result = { ...generateHaiku(season), createdAt: new Date().toISOString(), id: Date.now() };
+          setHaiku(result);
+          onHaikuCreated(result);
+          setLoading(false);
+        }, 1500);
+      };
+      
+      return (
+        <div className="tab-content">
+          <div className="header">
+            <div className="header-title">一句を詠む</div>
+            <div className="header-points">
+              <span className="points-badge">{points}</span> pt
+            </div>
+          </div>
+          <div className="content">
+            {haiku ? (
+              <div>
+                <HaikuCard item={{ ...haiku, user: { name: user.name, avatar: user.avatar }, likes: 0, comments: 0 }} likes={{}} onLike={() => {}} />
+                <button className="action-btn action-btn-secondary" style={{ marginBottom: 12 }}>共有する</button>
+                <button className="action-btn" style={{ background: 'transparent', color: 'var(--secondary)', border: '1px solid var(--border)' }} onClick={() => setHaiku(null)}>新たに詠む</button>
+              </div>
+            ) : (
+              <div>
+                <textarea className="create-input" placeholder="春の日に..." value={input} onChange={(e) => setInput(e.target.value)} />
+                <div className="kigo-section">
+                  <div className="kigo-label">季語 (1pt)</div>
+                  <div className="kigo-pills">
+                    {kigoData[season].map(word => <span key={word} className="kigo-pill" onClick={() => setInput(input + word)}>{word}</span>)}
+                  </div>
+                </div>
+                <button className="action-btn" onClick={handleGenerate} disabled={loading || points < 10}>
+                  {loading ? <span className="loading"><span className="loading-dot"></span><span className="loading-dot"></span><span className="loading-dot"></span></span> : '一句を詠む (10pt)'}
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      );
+    };
+    
+    // Discover Screen
+    const DiscoverScreen = ({ likes, onLike }) => {
+      const [tab, setTab] = useState('trending');
+      
+      return (
+        <div className="tab-content">
+          <div className="header-large">
+            <div className="header-large-title">発見</div>
+          </div>
+          <div className="content">
+            <div className="discover-tabs">
+              <button className={`discover-tab ${tab === 'trending' ? 'active' : ''}`} onClick={() => setTab('trending')}>トレンド</button>
+              <button className={`discover-tab ${tab === 'new' ? 'active' : ''}`} onClick={() => setTab('new')}>新着</button>
+              <button className={`discover-tab ${tab === 'classic' ? 'active' : ''}`} onClick={() => setTab('classic')}>名作</button>
+            </div>
+            {sampleHaikus.map(item => (
+              <HaikuCard key={item.id} item={item} likes={likes} onLike={onLike} />
+            ))}
+          </div>
+        </div>
+      );
+    };
+    
+    // Timeline Screen
+    const TimelineScreen = ({ haikus, likes, onLike }) => {
+      const grouped = haikus.reduce((acc, h) => {
+        const d = new Date(h.createdAt);
+        const key = `${d.getFullYear()}.${d.getMonth() + 1}`;
+        if (!acc[key]) acc[key] = [];
+        acc[key].push(h);
+        return acc;
+      }, {});
+      
+      const sortedKeys = Object.keys(grouped).sort((a,b) => {
+        const [yA,mA]=a.split('.').map(Number); const [yB,mB]=b.split('.').map(Number);
+        return (yB*12+mB)-(yA*12+mA);
+      });
+      
+      return (
+        <div className="tab-content">
+          <div className="header-large">
+            <div className="header-large-title">吟行</div>
+          </div>
+          <div className="content">
+            {haikus.length === 0 ? (
+              <div className="empty-state">
+                <div className="empty-icon">◷</div>
+                <div className="empty-text">まだ足跡がありません</div>
+              </div>
+            ) : sortedKeys.map(month => (
+              <div key={month} className="timeline-month">
+                <div className="timeline-month-title">{month}月</div>
+                {grouped[month].map((item, i) => (
+                  <div key={i} className="timeline-item">
+                    <div className="timeline-dot"></div>
+                    <div className="timeline-content">
+                      <HaikuCard item={item} likes={likes} onLike={onLike} showUser={false} />
+                      <div className="timeline-date">{new Date(item.createdAt).toLocaleDateString('ja-JP', { month: 'short', day: 'numeric' })}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    };
+    
+    // Profile Screen
+    const ProfileScreen = ({ user, haikuCount, onLogout, likes, points }) => {
+      return (
+        <div className="tab-content">
+          <div className="header-large">
+            <div className="header-large-title">自分</div>
+          </div>
+          <div className="content">
+            <div className="profile-header">
+              <div className="profile-avatar">{user?.avatar || '十'}</div>
+              <div className="profile-name">{user?.name || '俳人'}</div>
+              <div className="profile-email">haiku@{user?.name || 'user'}.app</div>
+              <div className="profile-stats">
+                <div className="profile-stat"><div className="profile-stat-num">{haikuCount}</div><div className="profile-stat-label">俳句</div></div>
+                <div className="profile-stat"><div className="profile-stat-num">{points}</div><div className="profile-stat-label">ポイント</div></div>
+                <div className="profile-stat"><div className="profile-stat-num">{Object.keys(likes).length}</div><div className="profile-stat-label">いいね</div></div>
+              </div>
+            </div>
+            <div className="menu-item"><span>マイ俳句</span><span className="menu-item-arrow">›</span></div>
+            <div className="menu-item"><span>ポイント購入</span><span className="menu-item-arrow">›</span></div>
+            <div className="menu-item"><span>設定</span><span className="menu-item-arrow">›</span></div>
+            <div className="menu-item"><span>このアプリについて</span><span className="menu-item-arrow">›</span></div>
+            <div className="menu-item menu-item-danger" onClick={onLogout}>ログアウト</div>
+          </div>
+        </div>
+      );
+    };
+    
+    // Main App
+    const App = () => {
+      const [showSplash, setShowSplash] = useState(true);
+      const [isLoggedIn, setIsLoggedIn] = useState(!!loadUser());
+      const [user, setUser] = useState(loadUser());
+      const [activeTab, setActiveTab] = useState('discover');
+      const [haikus, setHaikus] = useState([]);
+      const [likes, setLikes] = useState(loadLikes());
+      const [points, setPoints] = useState(0);
+      
+      useEffect(() => { 
+        if (isLoggedIn) {
+          setHaikus(loadHaikus());
+          loadPoints();
+        }
+      }, [isLoggedIn]);
+      
+      const loadPoints = async () => {
+        const p = await api.getPoints(user?.id);
+        setPoints(p || user?.points || 0);
+      };
+      
+      const handleLogin = (userData) => {
+        setUser(userData);
+        saveUser(userData);
+        setIsLoggedIn(true);
+        setPoints(userData.points || 100);
+      };
+      
+      const handleLogout = () => {
+        clearUser();
+        setUser(null);
+        setIsLoggedIn(false);
+      };
+      
+      const handleHaikuCreated = (haiku) => {
+        const newHaikus = [haiku, ...haikus];
+        setHaikus(newHaikus);
+        saveHaikus(newHaikus);
+        setPoints(p => p - 10); // 扣除点数
+        setActiveTab('timeline');
+      };
+      
+      const handleLike = (id) => {
+        const newLikes = { ...likes, [id]: !likes[id] };
+        setLikes(newLikes);
+        saveLikes(newLikes);
+      };
+      
+      if (showSplash) return <Splash onFinish={() => setShowSplash(false)} />;
+      if (!isLoggedIn) return <LoginScreen onLogin={handleLogin} />;
+      
+      return (
+        <div className="app">
+          {activeTab === 'create' && <CreateScreen user={user} points={points} onHaikuCreated={handleHaikuCreated} />}
+          {activeTab === 'discover' && <DiscoverScreen likes={likes} onLike={handleLike} />}
+          {activeTab === 'timeline' && <TimelineScreen haikus={haikus} likes={likes} onLike={handleLike} />}
+          {activeTab === 'profile' && <ProfileScreen user={user} haikuCount={haikus.length} onLogout={handleLogout} likes={likes} points={points} />}
+          
+          <div className="tab-bar">
+            {[{key:'create',label:'創作'},{key:'discover',label:'発見'},{key:'timeline',label:'吟行'},{key:'profile',label:'自分'}].map(item => (
+              <div key={item.key} className={`tab-item ${activeTab === item.key ? 'active' : ''}`} onClick={() => setActiveTab(item.key)}>
+                <span className="tab-icon">{Icons[item.key]}</span>
+                <span className="tab-label">{item.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    };
+    
+    ReactDOM.render(<App />, document.getElementById('root'));
+  </script>
+</body>
+</html>
