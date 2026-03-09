@@ -4,15 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#F9F7F2">
-  <meta name="description" content="十七音 - 俳句を詠み、共有する美学的なアプリ。五・七・十七音で自然の美しさを詠みます。">
-  <meta property="og:title" content="十七音 - Haiku">
-  <meta property="og:description" content="俳句を詠み、共有する美学的なアプリ">
-  <meta property="og:type" content="website">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="十七音">
-  <link rel="manifest" href="/manifest.json">
-  <link rel="apple-touch-icon" href="/icon-192.png">
   <title>十七音 - Haiku</title>
   <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
@@ -48,8 +39,7 @@
     .login-divider::before, .login-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
     .login-divider span { padding: 0 16px; font-size: 12px; color: var(--secondary); }
     .login-social { display: flex; justify-content: center; gap: 24px; }
-    .login-social-btn { width: 48px; height: 48px; border-radius: 50%; background: var(--card); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s ease; }
-    .login-social-btn:active { background: var(--primary); color: white; border-color: var(--primary); }
+    .login-social-btn { width: 48px; height: 48px; border-radius: 50%; background: var(--card); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; }
     
     /* Splash */
     .splash { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--bg); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 9999; }
@@ -67,119 +57,14 @@
     .points-badge { background: var(--primary); color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px; }
     
     /* Content */
-    .content { padding: 80px 24px 120px; }
-    
-    /* Toast 提示组件样式 */
-    .toast-container {
-      position: fixed;
-      bottom: 100px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 99999;
-      pointer-events: none;
-    }
-    
-    .toast {
-      background: rgba(0, 0, 0, 0.8);
-      color: white;
-      padding: 12px 24px;
-      border-radius: 24px;
-      font-size: 14px;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.3s ease, transform 0.3s ease;
-      white-space: nowrap;
-    }
-    
-    .toast.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    
-    .toast.hide {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    
-    /* 简约加载动画 */
-    .loading-mini {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 6px;
-      padding: 12px;
-    }
-    
-    .loading-mini-dot {
-      width: 4px;
-      height: 4px;
-      background: var(--secondary);
-      border-radius: 50%;
-      animation: pulse 1.4s infinite ease-in-out both;
-    }
-    
-    .loading-mini-dot:nth-child(1) { animation-delay: -0.32s; }
-    .loading-mini-dot:nth-child(2) { animation-delay: -0.16s; }
-    .loading-mini-dot:nth-child(3) { animation-delay: 0s; }
-    
-    @keyframes pulse {
-      0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
-      40% { transform: scale(1); opacity: 1; }
-    }
-    
-    /* 页面切换动画 */
-    .tab-page {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.3s ease, visibility 0.3s ease;
-    }
-    
-    .tab-page.active {
-      opacity: 1;
-      visibility: visible;
-    }
-    
-    .tab-page.exit {
-      opacity: 0;
-    }
-    
-    /* 页面淡入动画 */
-    .page-fade-in {
-      animation: pageFadeIn 0.3s ease forwards;
-    }
-    
-    @keyframes pageFadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    
-    /* Tab Content - 修复遮挡问题 */
-    .tab-content { 
-      position: relative;
-      z-index: 1;
-      min-height: 100vh;
-      background: var(--bg);
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-    }
+    .content { padding: 20px 24px; padding-bottom: 100px; }
     
     /* Tab */
-    .tab-bar { position: fixed; top: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 420px; background: var(--bg); border-bottom: 1px solid var(--border); display: flex; justify-content: space-around; padding: 16px 0; z-index: 9999; }
+    .tab-bar { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 420px; background: var(--bg); border-top: 1px solid var(--border); display: flex; justify-content: space-around; padding: 16px 0; z-index: 9999; }
     .tab-item { display: flex; flex-direction: column; align-items: center; flex: 1; }
     .tab-icon { font-size: 20px; margin-bottom: 4px; opacity: 0.4; }
     .tab-item.active .tab-icon { opacity: 1; }
-    .tab-label { font-size: 10px; color: var(--secondary); letter-spacing: 0.1em; font-family: 'Noto Serif JP', serif; }
+    .tab-label { font-size: 10px; color: var(--secondary); letter-spacing: 0.1em; }
     .tab-item.active .tab-label { color: var(--primary); }
     
     /* Input */
@@ -211,11 +96,9 @@
     .haiku-user-info { flex: 1; }
     .haiku-user-name { font-size: 14px; font-weight: 500; }
     .haiku-user-time { font-size: 12px; color: var(--secondary); }
-    .haiku-user-follow { font-size: 11px; color: var(--secondary); cursor: pointer; padding: 4px 8px; border: 1px solid var(--border); border-radius: 4px; }
-    .haiku-user-follow.following { background: var(--primary); color: white; border-color: var(--primary); }
     
     /* Discover */
-    .discover-tabs { display: flex; gap: 8px; margin-bottom: 20px; }
+    .discover-tabs { display: flex; gap: 8px; justify-content: center; padding: 12px 16px; background: var(--card); border-top: 1px solid var(--border); position: fixed; bottom: 70px; left: 0; right: 0; max-width: 420px; margin: 0 auto; }
     .discover-tab { padding: 8px 16px; background: transparent; border: 1px solid var(--border); font-size: 12px; color: var(--secondary); }
     .discover-tab.active { background: var(--primary); color: white; border-color: var(--primary); }
     
@@ -249,98 +132,19 @@
     @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
     
     .empty-state { text-align: center; padding: 60px 20px; }
-    .empty-icon { font-size: 24px; margin-bottom: 16px; opacity: 0.2; color: var(--primary); }
-    .empty-text { font-size: 14px; color: var(--secondary); letter-spacing: 0.05em; }
-    
-    /* Comments */
-    .comment-section { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); }
-    .comment-input-wrap { display: flex; gap: 8px; margin-bottom: 12px; }
-    .comment-input { flex: 1; padding: 10px 12px; background: var(--bg); border: 1px solid var(--border); font-size: 13px; }
-    .comment-input:focus { outline: none; border-color: var(--primary); }
-    .comment-btn { padding: 10px 16px; background: var(--primary); color: white; border: none; font-size: 12px; }
-    .comment-list { margin-top: 12px; }
-    .comment-item { display: flex; gap: 8px; margin-bottom: 12px; }
-    .comment-avatar { width: 24px; height: 24px; border-radius: 50%; background: var(--border); display: flex; align-items: center; justify-content: center; font-size: 10px; flex-shrink: 0; }
-    .comment-content { flex: 1; }
-    .comment-user { font-size: 12px; font-weight: 500; }
-    .comment-text { font-size: 13px; color: var(--secondary); margin-top: 2px; }
-    .comment-time { font-size: 10px; color: var(--secondary); margin-top: 4px; }
-    
-    /* Pull to Refresh */
-    .pull-refresh { position: relative; overflow: hidden; }
-    .pull-indicator { position: absolute; top: 0; left: 0; right: 0; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 12px; color: var(--secondary); background: var(--bg); z-index: 100; transition: transform 0.3s; transform: translateY(-60px); }
-    .pull-indicator.active { transform: translateY(0); }
-    .pull-indicator.loading { color: var(--primary); }
-    .pull-indicator .spinner { width: 16px; height: 16px; border: 2px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin-right: 8px; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    
-    /* Share */
-    .share-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 99999; display: flex; align-items: flex-end; }
-    .share-modal { background: var(--bg); width: 100%; max-width: 420px; margin: 0 auto; border-radius: 16px 16px 0 0; padding: 24px; animation: slideUp 0.3s ease; }
-    @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-    .share-title { font-size: 16px; text-align: center; margin-bottom: 20px; font-weight: 500; }
-    .share-options { display: flex; justify-content: center; gap: 24px; }
-    .share-option { display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; }
-    .share-icon { width: 48px; height: 48px; border-radius: 50%; background: var(--card); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 20px; }
-    .share-label { font-size: 11px; color: var(--secondary); font-family: 'Noto Serif JP', serif; }
-    .share-cancel { margin-top: 20px; padding: 12px; text-align: center; color: var(--secondary); font-size: 14px; border-top: 1px solid var(--border); }
-    .share-success { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--primary); color: white; padding: 12px 24px; border-radius: 8px; font-size: 14px; z-index: 100000; animation: fadeInOut 2s ease; }
-    @keyframes fadeInOut { 0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); } 20% { opacity: 1; transform: translate(-50%, -50%) scale(1); } 80% { opacity: 1; } 100% { opacity: 0; } }
-    
-    /* 动效增强 */
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes heartBeat { 0% { transform: scale(1); } 14% { transform: scale(1.3); } 28% { transform: scale(1); } 42% { transform: scale(1.3); } 70% { transform: scale(1); } }
-    
-    .fade-in { animation: fadeIn 0.5s ease; }
-    .slide-in { animation: slideIn 0.4s ease; }
-    
-    /* 俳句卡片动画 */
-    .haiku-card { animation: slideIn 0.4s ease; animation-fill-mode: both; }
-    .haiku-card:nth-child(1) { animation-delay: 0.05s; }
-    .haiku-card:nth-child(2) { animation-delay: 0.1s; }
-    .haiku-card:nth-child(3) { animation-delay: 0.15s; }
-    .haiku-card:nth-child(4) { animation-delay: 0.2s; }
-    .haiku-card:nth-child(5) { animation-delay: 0.25s; }
-    
-    /* 交互动效 */
-    .haiku-action { transition: all 0.2s ease; }
-    .haiku-action:active { transform: scale(0.95); }
-    .haiku-action.liked { animation: heartBeat 0.6s ease; color: var(--accent); }
-    
-    .tab-item { transition: all 0.2s ease; }
-    
-    /* 页面切换动画 */
-    .page-enter { opacity: 0; transform: translateX(20px); }
-    .page-enter-active { opacity: 1; transform: translateX(0); transition: opacity 0.3s ease, transform 0.3s ease; }
-    .page-exit { opacity: 1; }
-    .page-exit-active { opacity: 0; transition: opacity 0.2s ease; }
-    .tab-item:active { transform: scale(0.95); }
-    
-    .kigo-pill { transition: all 0.2s ease; }
-    .kigo-pill:active { transform: scale(0.95); background: var(--primary); color: white; }
-    
-    .menu-item { transition: all 0.2s ease; }
-    .menu-item:active { background: var(--border); }
-    
-    .action-btn { transition: all 0.2s ease; }
-    .action-btn:active { transform: scale(0.98); opacity: 0.9; }
-    
-    .haiku-user-follow { transition: all 0.2s ease; }
-    .haiku-user-follow:active { transform: scale(0.95); }
-    
-    /* Share Button in Card */
-    .haiku-share { font-size: 13px; color: var(--secondary); cursor: pointer; }
+    .empty-icon { font-size: 32px; margin-bottom: 16px; opacity: 0.3; }
+    .empty-text { font-size: 14px; color: var(--secondary); }
   </style>
 </head>
 <body>
   <div id="root"></div>
   
   <script type="text/babel">
-    const { useState, useEffect, useRef } = React;
+    const { useState, useEffect } = React;
     
     // 配置 - 部署后修改这里
-    const API_BASE = 'https://seventeen-sounds-api.vercel.app/api'; // 生产环境
+    const API_BASE = 'http://localhost:3000/api'; // 开发环境
+    // const API_BASE = 'https://your-project.vercel.app/api'; // 生产环境
     
     const USER_KEY = '@seventeen_user';
     const HAIKU_STORAGE_KEY = '@seventeen_haikus';
@@ -355,10 +159,6 @@
     
     const loadLikes = () => { try { return JSON.parse(localStorage.getItem(LIKES_KEY)) || {}; } catch (e) { return {}; } };
     const saveLikes = (likes) => localStorage.setItem(LIKES_KEY, JSON.stringify(likes));
-    
-    const FOLLOWS_KEY = '@seventeen_follows';
-    const loadFollows = () => { try { return JSON.parse(localStorage.getItem(FOLLOWS_KEY)) || { following: [], followers: [] }; } catch (e) { return { following: [], followers: [] }; } };
-    const saveFollows = (follows) => localStorage.setItem(FOLLOWS_KEY, JSON.stringify(follows));
     
     // API 调用
     const api = {
@@ -492,247 +292,14 @@
       return { lines: random.lines, season: seasonNames[season], author: random.author };
     };
     
-    // AI俳句生成
-    const generateAIHaiku = async (season, customInput = '') => {
-      // 使用免费LLM API或本地模板生成
-      const seasonPrompts = {
-        spring: ['春風', '桜', '菜の花', '燕', '蛙'],
-        summer: ['夏草', '蝉', '海', '風鈴', '夕立'],
-        autumn: ['秋風', '紅葉', '月', '虫', '彼岸'],
-        winter: ['雪', '初雪', '寒さ', '梅', '靜けさ']
-      };
-      
-      const prompts = seasonPrompts[season] || seasonPrompts.spring;
-      const keyword = customInput || prompts[Math.floor(Math.random() * prompts.length)];
-      
-      // 俳句模板（十七音结构）
-      const haikuTemplates = {
-        spring: [
-          [`${keyword}や`, '鳴き続く', '春の雨'],
-          ['春の朝や', `${keyword}の`, '音色奏で'],
-          [`${keyword}見て`, 'aktunya', '春amanan'],
-        ],
-        summer: [
-          [`${keyword}や`, '蟬鳴く', '夕暮れ'],
-          ['夏草や', `${keyword}の`, '夢の跡'],
-          [`${keyword}より`, '涼しげなる', '風哉'],
-        ],
-        autumn: [
-          [`${keyword}や`, '隣は何を', 'する他也'],
-          ['秋深しき', `${keyword}の`, '心かな'],
-          [`${keyword}見て`, '月夜更ける', '山里'],
-        ],
-        winter: [
-          [`${keyword}や`, '岩にしみ入る', '蝉の声'],
-          ['雪の間から', `${keyword}の`, '春見える'],
-          [`${keyword} Gallo`, '静けさの', '中美'],
-        ]
-      };
-      
-      // 尝试调用AI API
-      try {
-        const response = await fetch('https://api.aa1.cn/v1/chat/completions', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer free'
-          },
-          body: JSON.stringify({
-            model: 'gpt-3.5-turbo',
-            messages: [{
-              role: 'user',
-              content: `Create a Japanese haiku (5-7-5 syllables) about ${keyword} in ${season} season. Return ONLY the haiku in 3 lines, nothing else.`
-            }],
-            max_tokens: 50
-          })
-        });
-        
-        if (response.ok) {
-          const data = await response.json();
-          const content = data.choices?.[0]?.message?.content || '';
-          const lines = content.split('\n').filter(l => l.trim());
-          if (lines.length >= 3) {
-            return {
-              lines: [lines[0], lines[1], lines[2]].map(l => l.replace(/^\d+\.\s*/, '')),
-              season: seasonNames[season],
-              author: 'AI',
-              isAI: true
-            };
-          }
-        }
-      } catch (e) {
-        console.log('AI API failed, using template');
-      }
-      
-      // 回退到模板生成
-      const templates = haikuTemplates[season] || haikuTemplates.spring;
-      const template = templates[Math.floor(Math.random() * templates.length)];
-      
-      return {
-        lines: template,
-        season: seasonNames[season],
-        author: 'AI',
-        isAI: true
-      };
-    };
-    
-    const Icons = { create: '写', discover: '発', timeline: '時', profile: '私' };
-    
-    // Toast 提示组件
-    const ToastContext = React.createContext();
-    
-    const Toast = ({ message, type = 'info', duration = 2000 }) => {
-      const [show, setShow] = React.useState(false);
-      const [hide, setHide] = React.useState(false);
-      
-      React.useEffect(() => {
-        setShow(true);
-        const hideTimer = setTimeout(() => {
-          setHide(true);
-          setTimeout(() => setShow(false), 300);
-        }, duration);
-        return () => clearTimeout(hideTimer);
-      }, [duration]);
-      
-      return (
-        <div className={`toast-container ${show ? 'show' : ''}`}>
-          <div className={`toast ${hide ? 'hide' : ''}`}>{message}</div>
-        </div>
-      );
-    };
-    
-    // Toast Hook
-    const useToast = () => {
-      const [toasts, setToasts] = React.useState([]);
-      
-      const showToast = React.useCallback((message, type = 'info', duration = 2000) => {
-        const id = Date.now();
-        setToasts(prev => [...prev, { id, message, type, duration }]);
-        setTimeout(() => {
-          setToasts(prev => prev.filter(t => t.id !== id));
-        }, duration + 600);
-      }, []);
-      
-      return { toasts, showToast };
-    };
-    
-    // Toast 容器
-    const ToastContainer = ({ toasts }) => (
-      <div className="toast-container">
-        {toasts.map(toast => (
-          <Toast key={toast.id} message={toast.message} type={toast.type} duration={toast.duration} />
-        ))}
-      </div>
-    );
-    
-    // 简约加载组件
-    const LoadingDots = ({ text = '' }) => (
-      <div className="loading-mini">
-        <span className="loading-mini-dot"></span>
-        <span className="loading-mini-dot"></span>
-        <span className="loading-mini-dot"></span>
-        {text && <span style={{ marginLeft: '8px', fontSize: '12px', color: 'var(--secondary)' }}>{text}</span>}
-      </div>
-    );
-    
-    // 简约图标组件
-    const SimpleIcon = ({ name, size = 20 }) => {
-      const icons = {
-        create: '写',
-        discover: '発', 
-        timeline: '時',
-        profile: '私',
-        like: '♡',
-        liked: '♥',
-        comment: '○',
-        share: '↗',
-        follow: '+',
-        following: '✓',
-        back: '←',
-        close: '×',
-        check: '✓'
-      };
-      return <span style={{fontSize: size, opacity: 0.6}}>{icons[name] || '•'}</span>;
-    };
-    
-    // Pull to Refresh Component
-    const PullToRefresh = ({ onRefresh, children }) => {
-      const [pulling, setPulling] = useState(false);
-      const [refreshing, setRefreshing] = useState(false);
-      const startY = useRef(0);
-      const contentRef = useRef(null);
-      
-      const handleTouchStart = (e) => {
-        const content = contentRef.current;
-        if (content && content.scrollTop === 0) {
-          startY.current = e.touches[0].clientY;
-          setPulling(true);
-        }
-      };
-      
-      const handleTouchMove = (e) => {
-        if (!pulling || refreshing) return;
-        const deltaY = e.touches[0].clientY - startY.current;
-        if (deltaY > 0 && deltaY < 100) {
-          // 可以添加视觉反馈
-        }
-      };
-      
-      const handleTouchEnd = async (e) => {
-        if (!pulling || refreshing) {
-          setPulling(false);
-          return;
-        }
-        const deltaY = e.changedTouches[0].clientY - startY.current;
-        if (deltaY > 60) {
-          setRefreshing(true);
-          await onRefresh();
-          setTimeout(() => setRefreshing(false), 500);
-        }
-        setPulling(false);
-      };
-      
-      return (
-        <div 
-          ref={contentRef}
-          className="tab-content pull-refresh"
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
-        >
-          <div className={`pull-indicator ${pulling || refreshing ? 'active' : ''} ${refreshing ? 'loading' : ''}`}>
-            {refreshing ? <><div className="spinner"></div>更新中...</> : '引っ張って更新'}
-          </div>
-          {children}
-        </div>
-      );
-    };
+    const Icons = { create: '✎', discover: '◎', timeline: '◷', profile: '◯' };
     
     // Login Screen
     const LoginScreen = ({ onLogin }) => {
       const [name, setName] = useState('');
-      const [email, setEmail] = useState('');
-      const [isEmailLogin, setIsEmailLogin] = useState(false);
       const [loading, setLoading] = useState(false);
-      const [error, setError] = useState('');
       
-      const handleEmailLogin = async () => {
-        if (!email.trim() || !email.includes('@')) {
-          setError('有効なメールアドレスを入力してください');
-          return;
-        }
-        setLoading(true);
-        setError('');
-        try {
-          const { user } = await api.createUser(name.trim() || email.split('@')[0], email.trim());
-          onLogin(user);
-        } catch (e) {
-          onLogin({ id: `local_${Date.now()}`, name: name.trim() || email.split('@')[0], email: email.trim(), points: 100 });
-        }
-        setLoading(false);
-      };
-      
-      const handleNameLogin = async () => {
+      const handleLogin = async () => {
         if (!name.trim()) return;
         setLoading(true);
         try {
@@ -744,70 +311,21 @@
         setLoading(false);
       };
       
-      const handleSocialLogin = (provider) => {
-        // Firebase Auth配置后可以使用真实的社交登录
-        // 配置方法: https://firebase.google.com/docs/auth/web/google-signin
-        // 
-        // 真实代码示例:
-        // import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
-        // const auth = getAuth();
-        // const provider = new GoogleAuthProvider();
-        // signInWithPopup(auth, provider).then((result) => {
-        //   const user = result.user;
-        //   onLogin({ id: user.uid, name: user.displayName, email: user.email, photoURL: user.photoURL, points: 100 });
-        // });
-        
-        // 目前使用模拟登录
-        setLoading(true);
-        const socialNames = { google: 'Googleユーザー', apple: 'Appleユーザー', twitter: 'Twitterユーザー' };
-        const mockUser = {
-          id: `social_${provider}_${Date.now()}`,
-          name: socialNames[provider],
-          email: `${provider}@user.app`,
-          provider: provider,
-          points: 100,
-          createdAt: new Date().toISOString()
-        };
-        setTimeout(() => {
-          onLogin(mockUser);
-          setLoading(false);
-        }, 800);
-      };
-      
       return (
         <div className="login-screen">
           <div className="login-logo">十七音</div>
           <div className="login-subtitle">Haiku for your journey</div>
           <div>
-            {isEmailLogin ? (
-              <>
-                <input className="login-input" placeholder="メールアドレス" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                <input className="login-input" placeholder="お名前（任意）" value={name} onChange={(e) => setName(e.target.value)} />
-                {error && <div style={{color: 'var(--accent)', fontSize: '12px', marginBottom: '16px', textAlign: 'center'}}>{error}</div>}
-                <button className="login-btn" onClick={handleEmailLogin} disabled={loading}>
-                  {loading ? '...' : 'メールでログイン'}
-                </button>
-                <button className="login-btn" style={{background: 'transparent', color: 'var(--secondary)', marginTop: '12px'}} onClick={() => {setIsEmailLogin(false); setError('');}}>
-                  戻る
-                </button>
-              </>
-            ) : (
-              <>
-                <input className="login-input" placeholder="お名前" value={name} onChange={(e) => setName(e.target.value)} />
-                <button className="login-btn" onClick={handleNameLogin} disabled={loading}>
-                  {loading ? '...' : '始める'}
-                </button>
-                <button style={{background: 'transparent', border: 'none', color: 'var(--secondary)', fontSize: '12px', marginTop: '12px', cursor: 'pointer', display: 'block', width: '100%'}} onClick={() => setIsEmailLogin(true)}>
-                  メールアドレスでログイン
-                </button>
-              </>
-            )}
+            <input className="login-input" placeholder="お名前" value={name} onChange={(e) => setName(e.target.value)} />
+            <button className="login-btn" onClick={handleLogin} disabled={loading}>
+              {loading ? '...' : '始める'}
+            </button>
           </div>
           <div className="login-divider"><span>または</span></div>
           <div className="login-social">
-            <div className="login-social-btn" onClick={() => handleSocialLogin('google')} title="Googleでログイン"><span style={{fontSize:'12px',fontWeight:500}}>G</span></div>
-            <div className="login-social-btn" onClick={() => handleSocialLogin('apple')} title="Appleでログイン"><span style={{fontSize:'14px'}}>⌘</span></div>
-            <div className="login-social-btn" onClick={() => handleSocialLogin('twitter')} title="Twitterでログイン"><span style={{fontSize:'11px',fontWeight:600}}>X</span></div>
+            <div className="login-social-btn"></div>
+            <div className="login-social-btn"></div>
+            <div className="login-social-btn"></div>
           </div>
         </div>
       );
@@ -831,42 +349,9 @@
       );
     };
     
-    // Haiku Card with Comments
-    const HaikuCard = ({ item, likes, onLike, showUser = true, comments = [], onComment, follows = {}, onFollow, currentUser, onViewProfile }) => {
+    // Haiku Card
+    const HaikuCard = ({ item, likes, onLike, showUser = true }) => {
       const isLiked = likes[item.id];
-      const [showComments, setShowComments] = useState(false);
-      const [commentText, setCommentText] = useState('');
-      const [showShare, setShowShare] = useState(false);
-      const [shareSuccess, setShareSuccess] = useState('');
-      
-      const authorName = item.user?.name || item.author;
-      const isFollowing = follows.following?.includes(authorName);
-      
-      const haikuText = `${item.lines[0]}\n${item.lines[1]}\n${item.lines[2]}\n— ${item.author}`;
-      const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(haikuText + '\n\n#十七音')}`;
-      
-      const handleCopy = async () => {
-        try {
-          await navigator.clipboard.writeText(haikuText);
-          setShareSuccess('コピーしました');
-          setTimeout(() => setShowShare(false), 1000);
-          setTimeout(() => setShareSuccess(''), 2000);
-        } catch(e) {
-          setShareSuccess('コピーに失敗しました');
-        }
-      };
-      
-      const handleTwitter = () => {
-        window.open(twitterUrl, '_blank');
-        setShowShare(false);
-      };
-      
-      const handleComment = () => {
-        if (commentText.trim() && onComment) {
-          onComment(item.id, commentText.trim());
-          setCommentText('');
-        }
-      };
       
       return (
         <div className="haiku-card">
@@ -874,14 +359,9 @@
             <div className="haiku-user">
               <div className="haiku-user-avatar">{item.user.avatar || item.user.name?.[0]}</div>
               <div className="haiku-user-info">
-                <div className="haiku-user-name" onClick={() => onViewProfile && onViewProfile(authorName)} style={{cursor:'pointer'}}>{item.user.name}</div>
+                <div className="haiku-user-name">{item.user.name}</div>
                 <div className="haiku-user-time">{new Date(item.createdAt).toLocaleDateString('ja-JP')}</div>
               </div>
-              {onFollow && authorName !== currentUser?.name && (
-                <div className={`haiku-user-follow ${isFollowing ? 'following' : ''}`} onClick={() => onFollow(authorName)}>
-                  {isFollowing ? '✓ フォロー中' : '+ フォロー'}
-                </div>
-              )}
             </div>
           )}
           <div className="haiku-season">{item.season}</div>
@@ -889,148 +369,25 @@
           <div className="haiku-author">— {item.author}</div>
           <div className="haiku-actions">
             <div className={`haiku-action ${isLiked ? 'liked' : ''}`} onClick={() => onLike(item.id)}>
-              {isLiked ? '♥' : '♡'} <span style={{fontSize:'12px',color:'var(--secondary)',marginLeft:'4px'}}>{item.likes + (isLiked ? 1 : 0)}</span>
+              {isLiked ? '♥' : '♡'} {item.likes + (isLiked ? 1 : 0)}
             </div>
-            <div className="haiku-action" onClick={() => setShowComments(!showComments)}>
-              <span style={{opacity:0.6}}>○</span> <span style={{fontSize:'12px',color:'var(--secondary)'}}>{comments.length || item.comments || 0}</span>
-            </div>
-            <div className="haiku-share" onClick={() => setShowShare(true)}>
-              <span style={{opacity:0.6,fontSize:'13px'}}>↗</span>
-            </div>
+            <div className="haiku-action">💬 {item.comments || 0}</div>
           </div>
-          {showComments && (
-            <div className="comment-section">
-              <div className="comment-input-wrap">
-                <input className="comment-input" placeholder="感想を書く..." value={commentText} onChange={(e) => setCommentText(e.target.value)} onKeyPress={(e) => e.key === 'Enter' && handleComment()} />
-                <button className="comment-btn" onClick={handleComment}>送信</button>
-              </div>
-              {comments.length > 0 && (
-                <div className="comment-list">
-                  {comments.map((c, i) => (
-                    <div key={i} className="comment-item">
-                      <div className="comment-avatar">{c.user?.[0] || '遊'}</div>
-                      <div className="comment-content">
-                        <div className="comment-user">{c.user}</div>
-                        <div className="comment-text">{c.text}</div>
-                        <div className="comment-time">{c.time || '今'}</div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
-          {showShare && (
-            <div className="share-overlay" onClick={() => setShowShare(false)}>
-              <div className="share-modal" onClick={(e) => e.stopPropagation()}>
-                <div className="share-title" style={{fontFamily:'Noto Serif JP,serif'}}>俳句を共有</div>
-                <div className="share-options">
-                  <div className="share-option" onClick={handleCopy}>
-                    <div className="share-icon" style={{fontSize:'13px',fontWeight:500}}>Copy</div>
-                    <div className="share-label">コピー</div>
-                  </div>
-                  <div className="share-option" onClick={handleTwitter}>
-                    <div className="share-icon" style={{fontSize:'11px',fontWeight:600}}>X</div>
-                    <div className="share-label">X</div>
-                  </div>
-                  <div className="share-option" onClick={() => {
-                    const lineUrl = `https://line.me/R/msg/text/?${encodeURIComponent(haikuText + '\n\n#十七音')}`;
-                    window.open(lineUrl, '_blank');
-                    setShowShare(false);
-                  }}>
-                    <div className="share-icon" style={{fontSize:'14px',fontWeight:500}}>LINE</div>
-                    <div className="share-label">LINE</div>
-                  </div>
-                </div>
-                <div className="share-cancel" onClick={() => setShowShare(false)}>キャンセル</div>
-              </div>
-            </div>
-          )}
-          {shareSuccess && <div className="share-success">{shareSuccess}</div>}
         </div>
       );
     };
     
-    // Count Japanese syllables (hiragana/katakana/kanji approximation)
-    const countSyllables = (text) => {
-      // Japanese syllable counting - approximately 1 mora per character
-      // More accurate: count hiragana/katakana as 1, kanji can be 1-3
-      // For haiku validation, we use a rough estimate
-      return text.length; // Simplified - each character roughly equals 1 mora
-    };
-    
-    // Validate haiku format (5-7-5)
-    const validateHaiku = (line1, line2, line3) => {
-      const syllables1 = countSyllables(line1);
-      const syllables2 = countSyllables(line2);
-      const syllables3 = countSyllables(line3);
-      
-      if (syllables1 !== 5) return { valid: false, error: `第1句: ${syllables1}音 (5音 required)` };
-      if (syllables2 !== 7) return { valid: false, error: `第2句: ${syllables2}音 (7音 required)` };
-      if (syllables3 !== 5) return { valid: false, error: `第3句: ${syllables3}音 (5音 required)` };
-      
-      return { valid: true };
-    };
-    
     // Create Screen
-    const CreateScreen = ({ user, points, onHaikuCreated, follows = {} }) => {
+    const CreateScreen = ({ user, points, onHaikuCreated }) => {
       const [input, setInput] = useState('');
       const [haiku, setHaiku] = useState(null);
       const [loading, setLoading] = useState(false);
-      const [showPurchase, setShowPurchase] = useState(false);
-      const [purchasing, setPurchasing] = useState(false);
-      const [generateMode, setGenerateMode] = useState('classic'); // 'classic', 'ai', or 'free'
-      
-      // Free input mode state
-      const [freeInputLines, setFreeInputLines] = useState(['', '', '']);
-      const [haikuError, setHaikuError] = useState('');
-      
       const season = getCurrentSeason();
-      
-      // Handle free input line changes
-      const handleFreeInputChange = (index, value) => {
-        const newLines = [...freeInputLines];
-        newLines[index] = value;
-        setFreeInputLines(newLines);
-        
-        // Clear error when user types
-        setHaikuError('');
-      };
-      
-      // Validate and submit free input haiku
-      const handleFreeInputSubmit = () => {
-        const [line1, line2, line3] = freeInputLines;
-        
-        if (!line1.trim() || !line2.trim() || !line3.trim()) {
-          setHaikuError('すべての句を入力してください');
-          return;
-        }
-        
-        const validation = validateHaiku(line1.trim(), line2.trim(), line3.trim());
-        if (!validation.valid) {
-          setHaikuError(validation.error);
-          return;
-        }
-        
-        // Create haiku from free input
-        const newHaiku = {
-          lines: [line1.trim(), line2.trim(), line3.trim()],
-          season: seasonNames[season],
-          author: user.name || 'anonymous',
-          isAI: false,
-          isManual: true,
-          createdAt: new Date().toISOString(),
-          id: Date.now()
-        };
-        
-        setHaiku(newHaiku);
-        onHaikuCreated(newHaiku);
-      };
       
       const handleGenerate = async () => {
         // 检查点数
         if (points < 10) {
-          setShowPurchase(true);
+          alert('ポイントが不足しています');
           return;
         }
         
@@ -1039,108 +396,26 @@
         // 消耗点数
         await api.consumePoints(user.id, 10);
         
-        setTimeout(async () => {
-          let result;
-          if (generateMode === 'ai' && input.trim()) {
-            // AI生成模式
-            result = await generateAIHaiku(season, input.trim());
-          } else {
-            // 经典模式
-            result = generateHaiku(season);
-          }
-          result = { ...result, createdAt: new Date().toISOString(), id: Date.now() };
-          setHaiku(result);
-          onHaikuCreated(result);
-          setLoading(false);
-        }, generateMode === 'ai' ? 2500 : 1500);
-      };
-      
-      const handleAIGenerate = async () => {
-        // 检查点数
-        if (points < 20) {
-          setShowPurchase(true);
-          return;
-        }
-        
-        setLoading(true);
-        
-        // 消耗更多点数用于AI
-        await api.consumePoints(user.id, 20);
-        
-        setTimeout(async () => {
-          const result = await generateAIHaiku(season, input.trim());
-          result = { ...result, createdAt: new Date().toISOString(), id: Date.now() };
-          setHaiku(result);
-          onHaikuCreated(result);
-          setLoading(false);
-        }, 2500);
-      };
-      
-      const handlePurchase = (amount) => {
-        setPurchasing(true);
-        // 模拟购买
         setTimeout(() => {
-          const user = loadUser();
-          user.points += amount;
-          saveUser(user);
-          // 触发自定义事件更新点数
-          window.dispatchEvent(new CustomEvent('pointsUpdated', { detail: { points: user.points } }));
-          setShowPurchase(false);
-          setPurchasing(false);
-        }, 1000);
+          const result = { ...generateHaiku(season), createdAt: new Date().toISOString(), id: Date.now() };
+          setHaiku(result);
+          onHaikuCreated(result);
+          setLoading(false);
+        }, 1500);
       };
-      
-      // 购买弹窗
-      const PurchaseModal = () => (
-        <div style={{
-          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
-          background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center',
-          zIndex: 10000
-        }} onClick={() => setShowPurchase(false)}>
-          <div style={{
-            background: 'var(--bg)', padding: '24px', margin: '20px', borderRadius: '8px',
-            maxWidth: '320px', width: '100%'
-          }} onClick={e => e.stopPropagation()}>
-            <div style={{fontFamily: 'Noto Serif JP', fontSize: '18px', textAlign: 'center', marginBottom: '16px'}}>
-              ポイント購入
-            </div>
-            <div style={{textAlign: 'center', color: 'var(--secondary)', fontSize: '14px', marginBottom: '20px'}}>
-               stripe決済が必要です
-            </div>
-            <button className="action-btn" onClick={() => {
-              // Stripe Checkout跳转
-              const stripeUrl = 'https://buy.stripe.com/test?pt_100=100';
-              window.open(stripeUrl, '_blank');
-              alert('Stripeテスト画面に飛びます。テストカード: 4242 4242 4242 4242');
-            }} disabled={purchasing} style={{marginBottom: '12px'}}>
-              100pt - ¥120
-            </button>
-            <button className="action-btn" onClick={() => {
-              const stripeUrl = 'https://buy.stripe.com/test?pt_500=500';
-              window.open(stripeUrl, '_blank');
-            }} disabled={purchasing} style={{marginBottom: '12px'}}>
-              500pt - ¥480
-            </button>
-            <button className="action-btn" onClick={() => {
-              const stripeUrl = 'https://buy.stripe.com/test?pt_1000=1000';
-              window.open(stripeUrl, '_blank');
-            }} disabled={purchasing} style={{marginBottom: '12px'}}>
-              1000pt - ¥880
-            </button>
-            <button className="action-btn action-btn-secondary" onClick={() => setShowPurchase(false)} style={{marginTop: '8px'}}>
-              閉じる
-            </button>
-          </div>
-        </div>
-      );
       
       return (
         <div className="tab-content">
-          {showPurchase && <PurchaseModal />}
-          <div className="content" style={{paddingTop: '60px'}}>
+          <div className="header">
+            <div className="header-title">一句を詠む</div>
+            <div className="header-points">
+              <span className="points-badge">{points}</span> pt
+            </div>
+          </div>
+          <div className="content">
             {haiku ? (
               <div>
-                <HaikuCard item={{ ...haiku, user: { name: user.name, avatar: user.avatar }, likes: 0, comments: 0 }} likes={{}} onLike={() => {}} follows={follows} onFollow={handleFollow} currentUser={user} />
+                <HaikuCard item={{ ...haiku, user: { name: user.name, avatar: user.avatar }, likes: 0, comments: 0 }} likes={{}} onLike={() => {}} />
                 <button className="action-btn action-btn-secondary" style={{ marginBottom: 12 }}>共有する</button>
                 <button className="action-btn" style={{ background: 'transparent', color: 'var(--secondary)', border: '1px solid var(--border)' }} onClick={() => setHaiku(null)}>新たに詠む</button>
               </div>
@@ -1148,131 +423,14 @@
               <div>
                 <textarea className="create-input" placeholder="春の日に..." value={input} onChange={(e) => setInput(e.target.value)} />
                 <div className="kigo-section">
-                  <div className="kigo-label">季語 {points < 10 && <span style={{color: 'var(--accent)', fontSize: '10px'}}>（ポイント不足）</span>}</div>
+                  <div className="kigo-label">季語 (1pt)</div>
                   <div className="kigo-pills">
-                    {kigoData[season].map(word => (
-                      <span 
-                        key={word} 
-                        className="kigo-pill"
-                        onClick={() => setInput(input + word)}
-                        style={points < 10 ? {opacity: 0.5} : {}}
-                      >
-                        {word}
-                      </span>
-                    ))}
+                    {kigoData[season].map(word => <span key={word} className="kigo-pill" onClick={() => setInput(input + word)}>{word}</span>)}
                   </div>
                 </div>
-                {points < 10 && (
-                  <button className="action-btn" style={{background: 'var(--accent)', marginBottom: '12px'}} onClick={() => setShowPurchase(true)}>
-                    ポイントを購入 (10pt)
-                  </button>
-                )}
-                
-                {/* 生成模式选择 */}
-                <div style={{display:'flex',gap:'8px',marginBottom:'16px'}}>
-                  <button 
-                    className={`discover-tab ${generateMode === 'classic' ? 'active' : ''}`}
-                    onClick={() => setGenerateMode('classic')}
-                    style={{flex:1}}
-                  >
-                    伝統 (10pt)
-                  </button>
-                  <button 
-                    className={`discover-tab ${generateMode === 'ai' ? 'active' : ''}`}
-                    onClick={() => setGenerateMode('ai')}
-                    style={{flex:1, background: generateMode === 'ai' ? 'var(--primary)' : 'transparent', color: generateMode === 'ai' ? 'white' : 'inherit', border: '1px solid var(--primary)'}}
-                  >
-                    ✨ AI (20pt)
-                  </button>
-                  <button 
-                    className={`discover-tab ${generateMode === 'free' ? 'active' : ''}`}
-                    onClick={() => setGenerateMode('free')}
-                    style={{flex:1}}
-                  >
-                    自由入力
-                  </button>
-                </div>
-                
-                {/* AI模式引导 */}
-                {generateMode === 'ai' && (
-                  <div style={{background:'linear-gradient(135deg, rgba(26,26,26,0.05), rgba(107,107,107,0.1))',padding:'12px',borderRadius:'8px',marginBottom:'16px',border:'1px solid var(--border)'}}>
-                    <div style={{fontSize:'12px',color:'var(--primary)',fontWeight:500,marginBottom:'4px'}}>✨ AIが代わりに詠みます</div>
-                    <div style={{fontSize:'11px',color:'var(--secondary)'}}>上のテーマを入力するか、空欄でランダム生成</div>
-                  </div>
-                )}
-                
-                {/* 自由入力模式 UI */}
-                {generateMode === 'free' && (
-                  <div style={{marginBottom:'16px'}}>
-                    <div style={{fontSize:'12px',color:'var(--secondary)',marginBottom:'12px',textAlign:'center'}}>
-                      五・七・五の十七音で詠んでください
-                    </div>
-                    <div style={{display:'flex',flexDirection:'column',gap:'12px'}}>
-                      <div>
-                        <div style={{fontSize:'11px',color:'var(--secondary)',marginBottom:'4px'}}>第1句 (5音)</div>
-                        <input 
-                          className="login-input" 
-                          placeholder=" первая строка (5 слогов)"
-                          value={freeInputLines[0]}
-                          onChange={(e) => handleFreeInputChange(0, e.target.value)}
-                          style={{marginBottom:0}}
-                        />
-                      </div>
-                      <div>
-                        <div style={{fontSize:'11px',color:'var(--secondary)',marginBottom:'4px'}}>第2句 (7音)</div>
-                        <input 
-                          className="login-input" 
-                          placeholder="вторая строка (7 слогов)"
-                          value={freeInputLines[1]}
-                          onChange={(e) => handleFreeInputChange(1, e.target.value)}
-                          style={{marginBottom:0}}
-                        />
-                      </div>
-                      <div>
-                        <div style={{fontSize:'11px',color:'var(--secondary)',marginBottom:'4px'}}>第3句 (5音)</div>
-                        <input 
-                          className="login-input" 
-                          placeholder="третья строка (5 слогов)"
-                          value={freeInputLines[2]}
-                          onChange={(e) => handleFreeInputChange(2, e.target.value)}
-                          style={{marginBottom:0}}
-                        />
-                      </div>
-                    </div>
-                    {haikuError && (
-                      <div style={{color:'var(--accent)',fontSize:'12px',marginTop:'12px',textAlign:'center'}}>
-                        {haikuError}
-                      </div>
-                    )}
-                    <button 
-                      className="action-btn" 
-                      onClick={handleFreeInputSubmit}
-                      style={{marginTop:'16px'}}
-                    >
-                      俳句を保存
-                    </button>
-                  </div>
-                )}
-                
-                {/* AI模式显示自定义输入 */}
-                {generateMode === 'ai' && (
-                  <div style={{marginBottom:'16px'}}>
-                    <input 
-                      className="login-input" 
-                      placeholder="テーマを入力 (例: 春の夕暮れ)" 
-                      value={input}
-                      onChange={(e) => setInput(e.target.value)}
-                      style={{marginBottom:'8px'}}
-                    />
-                  </div>
-                )}
-                
-                {/* 伝統/AI模式的生成按钮 */}
-                {generateMode !== 'free' && (
-                  <button className="action-btn" onClick={generateMode === 'ai' ? handleAIGenerate : handleGenerate} disabled={loading}>
-                    {loading ? <span className="loading"><span className="loading-dot"></span><span className="loading-dot"></span><span className="loading-dot"></span></span> : generateMode === 'ai' ? `AIで詠む (20pt)` : `一句を詠む (10pt)`}
-                  </button>
-                )}
+                <button className="action-btn" onClick={handleGenerate} disabled={loading || points < 10}>
+                  {loading ? <span className="loading"><span className="loading-dot"></span><span className="loading-dot"></span><span className="loading-dot"></span></span> : '一句を詠む (10pt)'}
+                </button>
               </div>
             )}
           </div>
@@ -1281,117 +439,30 @@
     };
     
     // Discover Screen
-    const DiscoverScreen = ({ likes, onLike, comments, onComment, user, follows, onFollow, onViewProfile }) => {
+    const DiscoverScreen = ({ likes, onLike }) => {
       const [tab, setTab] = useState('trending');
-      const [loading, setLoading] = useState(false);
-      const [displayHaikus, setDisplayHaikus] = useState([]);
-      const [refreshing, setRefreshing] = useState(false);
-      const [searchQuery, setSearchQuery] = useState('');
-      
-      // 搜索过滤
-      const filteredHaikus = searchQuery 
-        ? sampleHaikus.filter(h => 
-            h.lines.some(l => l.includes(searchQuery)) || 
-            h.author.includes(searchQuery) ||
-            h.season.includes(searchQuery)
-          )
-        : displayHaikus;
-      
-      // 不同tab显示不同数据
-      const getHaikusByTab = (tabType) => {
-        switch(tabType) {
-          case 'trending':
-            // 趋势：按点赞数排序
-            return [...sampleHaikus].sort((a, b) => b.likes - a.likes);
-          case 'new':
-            // 新品：按时间排序
-            return [...sampleHaikus].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-          case 'classic':
-            // 名作：经典俳句
-            return sampleHaikus.filter(h => ['芭蕉', '子規', '蕪村', '一茶'].includes(h.author));
-          default:
-            return sampleHaikus;
-        }
-      };
-      
-      // Tab切换时刷新内容
-      useEffect(() => {
-        setLoading(true);
-        // 模拟加载延迟
-        const timer = setTimeout(() => {
-          setDisplayHaikus(getHaikusByTab(tab));
-          setLoading(false);
-        }, 300);
-        return () => clearTimeout(timer);
-      }, [tab]);
-      
-      // 下拉刷新
-      const handleRefresh = async () => {
-        setRefreshing(true);
-        // 模拟刷新延迟
-        await new Promise(resolve => setTimeout(resolve, 800));
-        // 随机打乱顺序模拟新内容
-        const shuffled = [...getHaikusByTab(tab)].sort(() => Math.random() - 0.5);
-        setDisplayHaikus(shuffled);
-        setRefreshing(false);
-      };
       
       return (
-        <PullToRefresh onRefresh={handleRefresh}>
-          
-            
+        <div className="tab-content">
+          <div className="header-large">
+            <div className="header-large-title">発見</div>
           </div>
           <div className="content">
-            {/* 搜索框 */}
-            <div style={{marginBottom:'16px'}}>
-              <input 
-                className="login-input" 
-                placeholder="俳句を検索..." 
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                style={{marginBottom:0,fontSize:'14px'}}
-              />
-            </div>
             <div className="discover-tabs">
-              <button className={`discover-tab ${tab === 'trending' ? 'active' : ''}`} onClick={() => setTab('trending')}>トレンド</button>
-              <button className={`discover-tab ${tab === 'new' ? 'active' : ''}`} onClick={() => setTab('new')}>新着</button>
-              <button className={`discover-tab ${tab === 'classic' ? 'active' : ''}`} onClick={() => setTab('classic')}>名作</button>
+              <button className={`discover-tab ${tab === 'trending' ? 'active' : ''}`} onClick={() => setTab('trending')}>人気順</button>
+              <button className={`discover-tab ${tab === 'new' ? 'active' : ''}`} onClick={() => setTab('new')}>最新</button>
+              <button className={`discover-tab ${tab === 'classic' ? 'active' : ''}`} onClick={() => setTab('classic')}>フォロー中</button>
             </div>
-            {loading ? (
-              <div className="loading">
-                <span className="loading-dot"></span>
-                <span className="loading-dot"></span>
-                <span className="loading-dot"></span>
-              </div>
-            ) : searchQuery ? (
-              filteredHaikus.length > 0 ? (
-                filteredHaikus.map(item => (
-                  <HaikuCard key={item.id} item={item} likes={likes} onLike={onLike} comments={comments[item.id] || []} onComment={onComment} follows={follows} onFollow={onFollow} currentUser={user} onViewProfile={onViewProfile} />
-                ))
-              ) : (
-                <div className="empty-state">
-                  <div className="empty-icon">—</div>
-                  <div className="empty-text">検索結果がありません</div>
-                </div>
-              )
-            ) : displayHaikus.length > 0 ? (
-              displayHaikus.map(item => (
-                <HaikuCard key={item.id} item={item} likes={likes} onLike={onLike} comments={comments[item.id] || []} onComment={onComment} follows={follows} onFollow={onFollow} currentUser={user} onViewProfile={onViewProfile} />
-              ))
-            ) : (
-              <div className="empty-state">
-                <div className="empty-icon">—</div>
-                <div className="empty-text">まだ作品がありません</div>
-              </div>
-            )}
+            {sampleHaikus.map(item => (
+              <HaikuCard key={item.id} item={item} likes={likes} onLike={onLike} />
+            ))}
           </div>
-        </PullToRefresh>
+        </div>
       );
     };
     
     // Timeline Screen
-    const TimelineScreen = ({ haikus = [], likes, onLike, comments, onComment, follows, onFollow, currentUser, onViewProfile }) => {
-      const [refreshing, setRefreshing] = useState(false);
+    const TimelineScreen = ({ haikus, likes, onLike }) => {
       const grouped = haikus.reduce((acc, h) => {
         const d = new Date(h.createdAt);
         const key = `${d.getFullYear()}.${d.getMonth() + 1}`;
@@ -1405,22 +476,15 @@
         return (yB*12+mB)-(yA*12+mA);
       });
       
-      // 下拉刷新 - 重新加载数据
-      const handleRefresh = async () => {
-        setRefreshing(true);
-        await new Promise(resolve => setTimeout(resolve, 500));
-        setRefreshing(false);
-      };
-      
       return (
-        <PullToRefresh onRefresh={handleRefresh}>
-          
-            
+        <div className="tab-content">
+          <div className="header-large">
+            <div className="header-large-title">吟行</div>
           </div>
           <div className="content">
             {haikus.length === 0 ? (
               <div className="empty-state">
-                <div className="empty-icon">–</div>
+                <div className="empty-icon">◷</div>
                 <div className="empty-text">まだ足跡がありません</div>
               </div>
             ) : sortedKeys.map(month => (
@@ -1430,7 +494,7 @@
                   <div key={i} className="timeline-item">
                     <div className="timeline-dot"></div>
                     <div className="timeline-content">
-                      <HaikuCard item={item} likes={likes} onLike={onLike} showUser={false} comments={comments[item.id] || []} onComment={onComment} />
+                      <HaikuCard item={item} likes={likes} onLike={onLike} showUser={false} />
                       <div className="timeline-date">{new Date(item.createdAt).toLocaleDateString('ja-JP', { month: 'short', day: 'numeric' })}</div>
                     </div>
                   </div>
@@ -1438,265 +502,33 @@
               </div>
             ))}
           </div>
-        </PullToRefresh>
+        </div>
       );
     };
     
     // Profile Screen
-    const ProfileScreen = ({ user, haikuCount, onLogout, likes, points, allHaikus = [], onMenuClick, follows }) => {
-      const followingCount = (follows?.following || []).length;
-      const followersCount = (follows?.followers || []).length;
-      
+    const ProfileScreen = ({ user, haikuCount, onLogout, likes, points }) => {
       return (
         <div className="tab-content">
-          
-            
+          <div className="header-large">
+            <div className="header-large-title">自分</div>
           </div>
           <div className="content">
             <div className="profile-header">
               <div className="profile-avatar">{user?.avatar || '十'}</div>
               <div className="profile-name">{user?.name || '俳人'}</div>
-              <div className="profile-email">{user?.email || `haiku@${user?.name || 'user'}.app`}</div>
-              <div className="profile-stats" style={{marginTop:'16px'}}>
-                <div className="profile-stat" style={{cursor:'pointer'}} onClick={() => onMenuClick('follows')}><div className="profile-stat-num">{followingCount}</div><div className="profile-stat-label">フォロー</div></div>
-                <div className="profile-stat" style={{cursor:'pointer'}} onClick={() => onMenuClick('followers')}><div className="profile-stat-num">{followersCount}</div><div className="profile-stat-label">フォロワー</div></div>
-              </div>
+              <div className="profile-email">haiku@{user?.name || 'user'}.app</div>
               <div className="profile-stats">
                 <div className="profile-stat"><div className="profile-stat-num">{haikuCount}</div><div className="profile-stat-label">俳句</div></div>
                 <div className="profile-stat"><div className="profile-stat-num">{points}</div><div className="profile-stat-label">ポイント</div></div>
                 <div className="profile-stat"><div className="profile-stat-num">{Object.keys(likes).length}</div><div className="profile-stat-label">いいね</div></div>
               </div>
             </div>
-            <div className="menu-item" onClick={() => onMenuClick('myHaiku')}><span>マイ俳句</span><span className="menu-item-arrow">›</span></div>
-            <div className="menu-item" onClick={() => onMenuClick('likedHaiku')}><span>いいね一覧</span><span className="menu-item-arrow">›</span></div>
-            <div className="menu-item" onClick={() => onMenuClick('purchase')}><span>ポイント購入</span><span className="menu-item-arrow">›</span></div>
-            <div className="menu-item" onClick={() => onMenuClick('settings')}><span>設定</span><span className="menu-item-arrow">›</span></div>
-            <div className="menu-item" onClick={() => onMenuClick('about')}><span>このアプリについて</span><span className="menu-item-arrow">›</span></div>
+            <div className="menu-item"><span>マイ俳句</span><span className="menu-item-arrow">›</span></div>
+            <div className="menu-item"><span>ポイント購入</span><span className="menu-item-arrow">›</span></div>
+            <div className="menu-item"><span>設定</span><span className="menu-item-arrow">›</span></div>
+            <div className="menu-item"><span>このアプリについて</span><span className="menu-item-arrow">›</span></div>
             <div className="menu-item menu-item-danger" onClick={onLogout}>ログアウト</div>
-          </div>
-        </div>
-      );
-    };
-    
-    // Profile Sub Screens
-    const MyHaikuScreen = ({ user, haikus = [], likes, onBack, comments, onComment, follows, onFollow }) => (
-      <div className="tab-content">
-        
-          <div className="header-title" style={{cursor:'pointer'}} onClick={onBack}>← 戻る</div>
-          <div className="header-large-title">マイ俳句</div>
-        </div>
-        <div className="content">
-          {haikus.length === 0 ? (
-            <div className="empty-state"><div className="empty-icon">–</div><div className="empty-text">まだ俳句がありません</div></div>
-          ) : haikus.map((item, i) => (
-            <HaikuCard key={i} item={item} likes={likes} onLike={()=>{}} showUser={false} comments={comments[item.id]||[]} onComment={onComment} />
-          ))}
-        </div>
-      </div>
-    );
-    
-    const LikedHaikuScreen = ({ sampleHaikus = [], likes, onBack, comments, onComment, follows, onFollow }) => {
-      const likedHaikus = sampleHaikus.filter(h => likes[h.id]);
-      return (
-        <div className="tab-content">
-          
-            <div className="header-title" style={{cursor:'pointer'}} onClick={onBack}>← 戻る</div>
-            <div className="header-large-title">いいね一覧</div>
-          </div>
-          <div className="content">
-            {likedHaikus.length === 0 ? (
-              <div className="empty-state"><div className="empty-icon">–</div><div className="empty-text">まだいいねがありません</div></div>
-            ) : likedHaikus.map((item, i) => (
-              <HaikuCard key={i} item={item} likes={likes} onLike={()=>{}} comments={comments[item.id]||[]} onComment={onComment} />
-            ))}
-          </div>
-        </div>
-      );
-    };
-    
-    const PurchaseScreen = ({ points, onBack, onPurchase }) => {
-      const packages = [
-        {pt:100, price:100, label:'100ポイント'},
-        {pt:500, price:490, label:'500ポイント'},
-        {pt:1000, price:980, label:'1000ポイント'},
-      ];
-      return (
-        <div className="tab-content">
-          
-            <div className="header-title" style={{cursor:'pointer'}} onClick={onBack}>← 戻る</div>
-            <div className="header-large-title">ポイント購入</div>
-          </div>
-          <div className="content">
-            <div style={{textAlign:'center',margin:'40px 0',color:'var(--secondary)'}}>現在のポイント: {points}</div>
-            {packages.map(pkg => (
-              <div key={pkg.pt} className="menu-item" style={{padding:'20px',justifyContent:'space-between'}}>
-                <span style={{fontSize:'16px'}}>{pkg.pt}ポイント</span>
-                <span style={{fontSize:'16px',color:'var(--primary)',cursor:'pointer'}} onClick={()=>onPurchase(pkg.pt)}>¥{pkg.price}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      );
-    };
-    
-    // Settings Screen - Data Export/Import
-    const SettingsScreen = ({ user, onBack, onLogout, onExport, onImport, showToast }) => {
-      const isAdmin = user?.email?.includes('admin') || user?.name?.includes('admin');
-      const fileInputRef = useRef(null);
-      
-      return (
-        <div className="tab-content">
-          
-            <div className="header-title" style={{cursor:'pointer'}} onClick={onBack}>← 戻る</div>
-            <div className="header-large-title">設定</div>
-          </div>
-          <div className="content">
-            <div className="menu-item" onClick={onExport}>
-              <span>データエクスポート</span>
-              <span className="menu-item-arrow">›</span>
-            </div>
-            <div className="menu-item" onClick={() => fileInputRef.current?.click()}>
-              <span>データインポート</span>
-              <span className="menu-item-arrow">📥</span>
-            </div>
-            <input 
-              type="file" 
-              ref={fileInputRef} 
-              style={{display:'none'}} 
-              accept=".json"
-              onChange={(e) => {
-                const file = e.target.files[0];
-                if (file) onImport(file);
-              }}
-            />
-            <div style={{borderBottom:'1px solid var(--border)',margin:'16px 0'}}></div>
-            <div className="menu-item" onClick={() => showToast ? showToast('通知設定は準備中です') : alert('通知設定は準備中です')}><span>通知設定</span><span className="menu-item-arrow">›</span></div>
-            <div className="menu-item" onClick={() => showToast ? showToast('プライバシーポリシーは準備中です') : alert('プライバシーは準備中です')}><span>プライバシー</span><span className="menu-item-arrow">›</span></div>
-            <div className="menu-item" onClick={() => showToast ? showToast('ヘルプは準備中です') : alert('ヘルプは準備中です')}><span>ヘルプ</span><span className="menu-item-arrow">›</span></div>
-            <div style={{borderBottom:'1px solid var(--border)',margin:'16px 0'}}></div>
-            <div style={{fontSize:'12px',color:'var(--secondary)',marginBottom:'8px'}}>管理者機能</div>
-            <div className="menu-item" onClick={() => showToast('管理画面は準備中です')}><span>ユーザー管理</span><span className="menu-item-arrow">›</span></div>
-            <div className="menu-item" onClick={() => showToast('API設定は準備中です')}><span>API設定</span><span className="menu-item-arrow">›</span></div>
-            <div className="menu-item" onClick={() => showToast('データ分析は準備中です')}><span>データ分析</span><span className="menu-item-arrow">›</span></div>
-            <div className="menu-item" onClick={() => showToast ? showToast('利用規約は準備中です') : alert('利用規約は準備中です')}><span>利用規約</span><span className="menu-item-arrow">›</span></div>
-            <div className="menu-item" onClick={() => showToast ? showToast('プライバシーポリシーは準備中です') : alert('プライバシーは準備中です')}><span>プライバシーポリシー</span><span className="menu-item-arrow">›</span></div>
-            <div className="menu-item menu-item-danger" onClick={onLogout}>ログアウト</div>
-          </div>
-        </div>
-      );
-    };
-    
-    const AboutScreen = ({ onBack }) => (
-      <div className="tab-content">
-        
-          <div className="header-title" style={{cursor:'pointer'}} onClick={onBack}>← 戻る</div>
-          <div className="header-large-title">このアプリについて</div>
-        </div>
-        <div className="content" style={{textAlign:'center',padding:'40px 20px'}}>
-          <div style={{fontFamily:'Noto Serif JP,serif',fontSize:'32px',marginBottom:'20px'}}>十七音</div>
-          <div style={{color:'var(--secondary)',marginBottom:'40px'}}>Haiku for your journey</div>
-          <div style={{fontSize:'14px',color:'var(--secondary)',lineHeight:'2'}}>
-            <div>バージョン 1.0.0</div>
-            <div>© 2026 十七音</div>
-          </div>
-          <div style={{marginTop:'40px',fontSize:'13px',color:'var(--secondary)'}}>
-            俳句は、日本古来の短詩形文学です。<br/>
-            五・七・五、十七音で自然の美しさを詠みます。
-          </div>
-        </div>
-      </div>
-    );
-    
-    // 关注列表页面
-    const FollowsScreen = ({ follows, onBack }) => {
-      const following = follows.following || [];
-      return (
-        <div className="tab-content">
-          
-            <div className="header-title" style={{cursor:'pointer'}} onClick={onBack}>← 戻る</div>
-            <div className="header-large-title">フォロー</div>
-          </div>
-          <div className="content">
-            {following.length === 0 ? (
-              <div className="empty-state"><div className="empty-icon">–</div><div className="empty-text">まだフォローしていません</div></div>
-            ) : following.map((name, i) => (
-              <div key={i} className="menu-item" style={{padding:'12px 0'}}>
-                <div style={{display:'flex',alignItems:'center',gap:'12px'}}>
-                  <div style={{width:'40px',height:'40px',borderRadius:'50%',background:'var(--border)',display:'flex',alignItems:'center',justifyContent:'center'}}>{name[0]}</div>
-                  <div style={{fontSize:'14px'}}>{name}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      );
-    };
-    
-    // 粉丝列表页面
-    const FollowersScreen = ({ follows, onBack }) => {
-      const followers = follows.followers || [];
-      return (
-        <div className="tab-content">
-          
-            <div className="header-title" style={{cursor:'pointer'}} onClick={onBack}>← 戻る</div>
-            <div className="header-large-title">フォロワー</div>
-          </div>
-          <div className="content">
-            {followers.length === 0 ? (
-              <div className="empty-state"><div className="empty-icon">–</div><div className="empty-text">まだフォロワーがいません</div></div>
-            ) : followers.map((name, i) => (
-              <div key={i} className="menu-item" style={{padding:'12px 0'}}>
-                <div style={{display:'flex',alignItems:'center',gap:'12px'}}>
-                  <div style={{width:'40px',height:'40px',borderRadius:'50%',background:'var(--border)',display:'flex',alignItems:'center',justifyContent:'center'}}>{name[0]}</div>
-                  <div style={{fontSize:'14px'}}>{name}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      );
-    };
-    
-    // 用户主页
-    const UserProfileScreen = ({ userName, onBack, onFollow, follows, currentUser }) => {
-      const isFollowing = follows?.following?.includes(userName);
-      // 模拟用户数据
-      const userHaikus = [
-        {id:1, lines:['古池や','蛙飛び込む','水の音'], season:'春', likes:128, author:userName},
-        {id:2, lines:['夏草や','兵どもが','夢の跡'], season:'夏', likes:89, author:userName},
-      ];
-      
-      return (
-        <div className="tab-content">
-          
-            <div className="header-title" style={{cursor:'pointer'}} onClick={onBack}>← 戻る</div>
-            <div className="header-large-title">{userName}</div>
-          </div>
-          <div className="content">
-            <div className="profile-header">
-              <div className="profile-avatar">{userName[0]}</div>
-              <div className="profile-name">{userName}</div>
-              <div style={{marginTop:'16px'}}>
-                <button className={`action-btn ${isFollowing ? 'action-btn-secondary' : ''}`} onClick={() => onFollow(userName)} style={{width:'auto',padding:'12px 32px'}}>
-                  {isFollowing ? '✓ フォロー中' : '+ フォロー'}
-                </button>
-              </div>
-              <div className="profile-stats" style={{marginTop:'16px'}}>
-                <div className="profile-stat"><div className="profile-stat-num">{userHaikus.length}</div><div className="profile-stat-label">俳句</div></div>
-                <div className="profile-stat"><div className="profile-stat-num">0</div><div className="profile-stat-label">フォロワー</div></div>
-                <div className="profile-stat"><div className="profile-stat-num">0</div><div className="profile-stat-label">フォロー</div></div>
-              </div>
-            </div>
-            {userHaikus.map(item => (
-              <div key={item.id} className="haiku-card">
-                <div className="haiku-season">{item.season}</div>
-                <div className="haiku-lines">{item.lines[0]}<br/>{item.lines[1]}<br/>{item.lines[2]}</div>
-                <div className="haiku-author">— {item.author}</div>
-                <div className="haiku-actions">
-                  <div className="haiku-action">♡ {item.likes}</div>
-                </div>
-              </div>
-            ))}
           </div>
         </div>
       );
@@ -1708,34 +540,9 @@
       const [isLoggedIn, setIsLoggedIn] = useState(!!loadUser());
       const [user, setUser] = useState(loadUser());
       const [activeTab, setActiveTab] = useState('discover');
-      const [prevTab, setPrevTab] = useState('discover');
-      const [tabAnimating, setTabAnimating] = useState(false);
       const [haikus, setHaikus] = useState([]);
       const [likes, setLikes] = useState(loadLikes());
-      const [follows, setFollows] = useState(loadFollows());
       const [points, setPoints] = useState(0);
-      const [comments, setComments] = useState({});
-      // Toast 状态
-      const [toasts, setToasts] = useState([]);
-      
-      const showToast = (message, duration = 2000) => {
-        const id = Date.now();
-        setToasts(prev => [...prev, { id, message, duration }]);
-        setTimeout(() => {
-          setToasts(prev => prev.filter(t => t.id !== id));
-        }, duration + 600);
-      };
-      
-      // Tab 切换动画
-      const handleTabChange = (newTab) => {
-        if (newTab === activeTab || tabAnimating) return;
-        setPrevTab(activeTab);
-        setTabAnimating(true);
-        setTimeout(() => {
-          setActiveTab(newTab);
-          setTimeout(() => setTabAnimating(false), 50);
-        }, 150);
-      };
       
       useEffect(() => { 
         if (isLoggedIn) {
@@ -1776,173 +583,19 @@
         saveLikes(newLikes);
       };
       
-      const handleFollow = (authorName) => {
-        const newFollows = { ...follows };
-        const idx = newFollows.following.indexOf(authorName);
-        if (idx > -1) {
-          newFollows.following.splice(idx, 1);
-        } else {
-          newFollows.following.push(authorName);
-        }
-        setFollows(newFollows);
-        saveFollows(newFollows);
-      };
-      
-      const handleComment = (haikuId, text) => {
-        const newComments = { ...comments };
-        if (!newComments[haikuId]) newComments[haikuId] = [];
-        newComments[haikuId].push({
-          user: user?.name || 'onymous',
-          text: text,
-          time: '今'
-        });
-        setComments(newComments);
-        // 保存到localStorage
-        localStorage.setItem('@seventeen_comments', JSON.stringify(newComments));
-      };
-      
-      // 加载评论
-      useEffect(() => {
-        try {
-          const saved = JSON.parse(localStorage.getItem('@seventeen_comments'));
-          if (saved) setComments(saved);
-        } catch(e) {}
-      }, []);
-      
-      // 监听点数更新事件
-      useEffect(() => {
-        const handlePointsUpdate = (e) => {
-          setPoints(e.detail.points);
-        };
-        window.addEventListener('pointsUpdated', handlePointsUpdate);
-        return () => window.removeEventListener('pointsUpdated', handlePointsUpdate);
-      }, []);
-      
-      // Data export function
-      const handleExport = () => {
-        const data = {
-          user: user,
-          haikus: haikus,
-          likes: likes,
-          follows: follows,
-          comments: comments,
-          exportedAt: new Date().toISOString(),
-          version: '1.0.0'
-        };
-        
-        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `十七音データ_${new Date().toISOString().split('T')[0]}.json`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-        
-        showToast('データをエクスポートしました');
-      };
-      
-      // Data import function
-      const handleImport = (file) => {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          try {
-            const data = JSON.parse(e.target.result);
-            
-            // Validate import data
-            if (!data.haikus || !Array.isArray(data.haikus)) {
-              showToast('無効なデータ形式です');
-              return;
-            }
-            
-            // Restore data
-            if (data.haikus) {
-              setHaikus(data.haikus);
-              saveHaikus(data.haikus);
-            }
-            if (data.likes) {
-              setLikes(data.likes);
-              saveLikes(data.likes);
-            }
-            if (data.follows) {
-              setFollows(data.follows);
-              saveFollows(data.follows);
-            }
-            if (data.comments) {
-              setComments(data.comments);
-              localStorage.setItem('@seventeen_comments', JSON.stringify(data.comments));
-            }
-            
-            showToast('データをインポートしました');
-          } catch (err) {
-            showToast('データの読み込みに失敗しました', 3000);
-            console.error(err);
-          }
-        };
-        reader.readAsText(file);
-      };
-      const [profileSubPage, setProfileSubPage] = useState(null);
-      const [viewingUser, setViewingUser] = useState(null);
-      
-      const handleViewProfile = (userName) => {
-        if (userName && userName !== user?.name) {
-          setViewingUser(userName);
-        }
-      };
-      
-      const handleBackFromUser = () => {
-        setViewingUser(null);
-      };
-      
-      const handleMenuClick = (page) => {
-        setProfileSubPage(page);
-      };
-      
-      const handleBack = () => {
-        setProfileSubPage(null);
-      };
-      
-      const handlePurchase = (pt) => {
-        const newPoints = points + pt;
-        setPoints(newPoints);
-        const updatedUser = { ...user, points: newPoints };
-        setUser(updatedUser);
-        saveUser(updatedUser);
-        showToast(`${pt}ポイントを購入しました！`);
-      };
-      
       if (showSplash) return <Splash onFinish={() => setShowSplash(false)} />;
       if (!isLoggedIn) return <LoginScreen onLogin={handleLogin} />;
       
-      // 渲染profile子页面
-      if (viewingUser) return <UserProfileScreen userName={viewingUser} onBack={handleBackFromUser} onFollow={handleFollow} follows={follows} currentUser={user} />;
-      
-      if (profileSubPage === 'myHaiku') return <MyHaikuScreen user={user} haikus={haikus} likes={likes} onBack={handleBack} comments={comments} onComment={handleComment} follows={follows} onFollow={handleFollow} />;
-      if (profileSubPage === 'likedHaiku') return <LikedHaikuScreen sampleHaikus={sampleHaikus} likes={likes} onBack={handleBack} comments={comments} onComment={handleComment} follows={follows} onFollow={handleFollow} />;
-      if (profileSubPage === 'follows') return <FollowsScreen follows={follows} onBack={handleBack} />;
-      if (profileSubPage === 'followers') return <FollowersScreen follows={follows} onBack={handleBack} />;
-      if (profileSubPage === 'purchase') return <PurchaseScreen points={points} onBack={handleBack} onPurchase={handlePurchase} />;
-      if (profileSubPage === 'settings') return <SettingsScreen user={user} onBack={handleBack} onLogout={handleLogout} onExport={handleExport} onImport={handleImport} showToast={showToast} />;
-      if (profileSubPage === 'about') return <AboutScreen onBack={handleBack} />;
-      
       return (
         <div className="app">
-          {/* Toast 提示 */}
-          {toasts.map(toast => (
-            <div key={toast.id} className="toast-item">{toast.message}</div>
-          ))}
-          
-          <div className="page-content" style={{animation: 'slideIn 0.3s ease'}}>
-            {activeTab === 'create' && <CreateScreen user={user} points={points} onHaikuCreated={handleHaikuCreated} follows={follows} />}
-            {activeTab === 'discover' && <DiscoverScreen likes={likes} onLike={handleLike} comments={comments} onComment={handleComment} user={user} follows={follows} onFollow={handleFollow} onViewProfile={handleViewProfile} />}
-            {activeTab === 'timeline' && <TimelineScreen haikus={haikus} likes={likes} onLike={handleLike} comments={comments} onComment={handleComment} follows={follows} onFollow={handleFollow} currentUser={user} onViewProfile={handleViewProfile} />}
-            {activeTab === 'profile' && <ProfileScreen user={user} haikuCount={haikus.length} onLogout={handleLogout} likes={likes} points={points} allHaikus={haikus} onMenuClick={handleMenuClick} follows={follows} />}
-          </div>
+          {activeTab === 'create' && <CreateScreen user={user} points={points} onHaikuCreated={handleHaikuCreated} />}
+          {activeTab === 'discover' && <DiscoverScreen likes={likes} onLike={handleLike} />}
+          {activeTab === 'timeline' && <TimelineScreen haikus={haikus} likes={likes} onLike={handleLike} />}
+          {activeTab === 'profile' && <ProfileScreen user={user} haikuCount={haikus.length} onLogout={handleLogout} likes={likes} points={points} />}
           
           <div className="tab-bar">
             {[{key:'create',label:'創作'},{key:'discover',label:'発見'},{key:'timeline',label:'吟行'},{key:'profile',label:'自分'}].map(item => (
-              <div key={item.key} className={`tab-item ${activeTab === item.key ? 'active' : ''}`} onClick={() => handleTabChange(item.key)}>
+              <div key={item.key} className={`tab-item ${activeTab === item.key ? 'active' : ''}`} onClick={() => setActiveTab(item.key)}>
                 <span className="tab-icon">{Icons[item.key]}</span>
                 <span className="tab-label">{item.label}</span>
               </div>
